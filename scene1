@@ -1,0 +1,21 @@
+# TEST FICHIER SCENE
+
+scene
+{
+	name|DEMO|
+	camera|200.0 0.0 50.0|
+	render|1000 800|
+}
+
+object
+{
+	object|sphere|
+	{
+		size|50.0|
+		color|255 0 0|
+	}
+	object|plan|
+	{
+		color|0 255 0|
+	}
+}
