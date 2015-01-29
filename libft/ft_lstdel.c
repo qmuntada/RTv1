@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_lstdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/06 18:08:02 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/07 15:27:18 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+void	ft_lstdel(t_list **alst, void (*del)(void *, size_t))
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	t_list	*lst;
+	t_list	*nxtlst;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	lst = *alst;
+	while (lst)
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		nxtlst = lst->next;
+		del(lst->content, lst->content_size);
+		free(lst);
+		lst = nxtlst;
 	}
-	return (1);
+	*alst = NULL;
 }

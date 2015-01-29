@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strcf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/20 15:38:37 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/20 15:40:01 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
-
-int		key_press(int keycode, t_env *e)
+int		ft_strcf(char *str, char c)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	int		i;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	i = -1;
+	while (*(str + (++i)))
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		if (*(str + i) == c)
+			return (i);
 	}
-	return (1);
+	return (-1);
 }

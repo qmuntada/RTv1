@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/05 16:04:53 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/08 15:53:24 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	size_t	i;
+	char	*news;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	i = -1;
+	if (s && f)
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		news = malloc(sizeof(char) * ft_strlen(s));
+		while (*(s + (++i)) != '\0')
+			*(news + i) = f(i, *(s + i));
+		return (news);
 	}
-	return (1);
+	return (NULL);
 }

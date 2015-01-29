@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strcat.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/04 15:55:09 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/06 13:06:55 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+char	*ft_strcat(char *s1, const char *s2)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	int		i;
+	int		j;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	j = 0;
+	i = ft_strlen(s1);
+	while ((s1[i] = s2[j]))
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		j++;
+		i++;
 	}
-	return (1);
+	s1[i] = '\0';
+	return (s1);
 }

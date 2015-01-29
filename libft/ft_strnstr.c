@@ -1,37 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/04 18:24:01 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/08 15:06:48 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	size_t	len;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	len = ft_strlen(s2);
+	if (!*s2)
+		return ((char *)s1);
+	if (len <= n)
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		while ((*s1) && (n - len + 1 > 0))
+		{
+			if (*s1 == *s2)
+				if (ft_memcmp((char *)s1, (char *)s2, len) == 0)
+					return ((char *)s1);
+			s1++;
+			n--;
+		}
 	}
-	return (1);
+	return (NULL);
 }

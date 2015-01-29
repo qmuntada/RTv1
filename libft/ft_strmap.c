@@ -1,37 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/05 15:47:34 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/08 15:51:34 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+char	*ft_strmap(char const *s, char (*f)(char))
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	int		i;
+	int		j;
+	char	*nstr;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	i = -1;
+	if (s && f)
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		j = ft_strlen((char*)s);
+		nstr = (char*)malloc(j * sizeof(char));
+		while (*(s + ++i) != '\0')
+			nstr[i] = f(*(s + i));
+		return (nstr);
 	}
-	return (1);
+	return (NULL);
 }

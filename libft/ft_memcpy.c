@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_memcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/04 11:08:22 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/07 16:12:31 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+void	*ft_memcpy(void *dst, const void *src, size_t n)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	size_t	i;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
-	}
-	return (1);
+	i = -1;
+	while (++i < n)
+		*((unsigned char *)dst + i) = *((unsigned char *)src + i);
+	return (dst);
 }

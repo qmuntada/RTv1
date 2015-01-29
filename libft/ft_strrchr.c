@@ -1,37 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/04 17:49:30 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/08 14:47:14 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+char	*ft_strrchr(const char *s, int c)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	int		i;
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
-	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
-	}
-	return (1);
+	i = ft_strlen(s);
+	while (i >= 0 && s[i] != (char)c)
+		i--;
+	if (s[i] == (char)c)
+		return ((char*)&s[i]);
+	return (NULL);
 }

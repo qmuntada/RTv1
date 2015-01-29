@@ -2,20 +2,29 @@
 
 scene
 {
-	name|DEMO|
-	camera|200.0 0.0 50.0|
-	render|1000 800|
+	name(DEMO)
+	cam_pos(0 5 3)
+	render(640 480)
 }
 
-object
+content
 {
-	object|sphere|
+	object(sphere)
 	{
-		size|50.0|
-		color|255 0 0|
+		size(100)
+		color(10 120 180)
+		pos(1 0 0)
 	}
-	object|plan|
+	object(sphere)
 	{
-		color|0 255 0|
+		size(50)
+		color(120 140 10)
+		pos(0 0 0)
+	}
+	object(sphere)
+	{
+		size(100)
+		color(10 140 20)
+		pos(0 1 1)
 	}
 }

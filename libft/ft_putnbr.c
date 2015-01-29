@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   event.c                                            :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/01/16 16:33:47 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 16:57:07 by qmuntada         ###   ########.fr       */
+/*   Created: 2014/11/05 20:46:36 by qmuntada          #+#    #+#             */
+/*   Updated: 2014/11/06 15:47:31 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-int		key_press(int keycode, t_env *e)
+void	ft_putnbr(int n)
 {
-	if (keycode == W)
-		e->obj->pos.y += 0.05;
-	if (keycode == S)
-		e->obj->pos.y -= 0.05;
-	if (keycode == A)
-		e->obj->pos.x += 0.05;
-	if (keycode == D)
-		e->obj->pos.x -= 0.05;
-	expose_hook(e);
-	return (1);
-}
+	int		i;
+	int		a[10];
 
-int		key_release(int keycode, t_env *e)
-{
-	if (keycode == ESC)
+	i = 0;
+	if (n < 0)
 	{
-		mlx_destroy_window(e->mlx, e->win);
-		exit(EXIT_SUCCESS);
+		ft_putchar('-');
+		n = -n;
 	}
-	return (1);
+	if (!n)
+		ft_putchar('0');
+	while (n)
+	{
+		*(a + i) = n % 10;
+		n /= 10;
+		i++;
+	}
+	while (i > 0)
+	{
+		i--;
+		ft_putchar(*(a + i) + 48);
+	}
 }
