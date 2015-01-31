@@ -80,9 +80,26 @@ t_vec	vecdiv(t_vec *a, t_vec *b)
 	return (v);
 }
 
+t_vec	vecreflect(t_vec *i, t_vec *n)
+{
+	t_vec	v;
+
+	v.x = i->x - 2.0 * vecdot(n, i) * n->x;
+	v.y = i->y - 2.0 * vecdot(n, i) * n->y;
+	v.z = i->z - 2.0 * vecdot(n, i) * n->z;
+	return (v);
+}
+
 void	setvec(t_vec *vec, double x, double y, double z)
 {
 	vec->x = x;
 	vec->y = y;
 	vec->z = z;
+}
+
+void	vecclamp(t_vec *vec, double a, double b)
+{
+	vec->x = ft_clamp(vec->x, a, b);
+	vec->y = ft_clamp(vec->y, a, b);
+	vec->z = ft_clamp(vec->z, a, b);
 }

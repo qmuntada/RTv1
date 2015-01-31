@@ -3,12 +3,36 @@
 scene
 {
 	name(DEMO)
-	cam_pos(0 5 3)
-	render(640 480)
+	cam_pos(0 0 0)
+	cam_rot(0 0 0)
+	render(320 200)
 }
 
 content
 {
+	object(cone)
+	{
+		color(50 60 70)
+		pos(5 2 -3)
+	}
+	object(cylinder)
+	{
+		size(100)
+		color(10 140 20)
+		pos(-2 0 -2)
+	}
+	object(plane)
+	{
+		color(190 190 190)
+		rot(0 1 0)
+		pos(0 -1 0)
+	}
+	object(plane)
+	{
+		color(190 190 190)
+		rot(0 0 90)
+		pos(0 0 -20)
+	}
 	object(sphere)
 	{
 		size(100)
@@ -18,13 +42,22 @@ content
 	object(sphere)
 	{
 		size(50)
-		color(120 140 10)
+		color(200 20 10)
 		pos(0 0 0)
 	}
-	object(sphere)
+	object(light)
 	{
-		size(100)
-		color(10 140 20)
-		pos(0 1 1)
+		color(230 220 220)
+		pos(10 2 2)
+	}
+	object(light)
+	{
+		color(240 180 130)
+		pos(8 1 1)
+	}
+	object(light)
+	{
+		color(220 150 120)
+		pos(12 3 3)
 	}
 }

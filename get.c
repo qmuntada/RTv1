@@ -1,6 +1,6 @@
 #include "rtv1.h"
 
-void	get_objvec(t_vec *vec, char *info)
+void	get_objvec(t_vec *vec, char *info, int type)
 {
 	char	**vec_info;
 
@@ -10,6 +10,8 @@ void	get_objvec(t_vec *vec, char *info)
 		vec->x = ft_atoi(vec_info[0]);
 		vec->y = ft_atoi(vec_info[1]);
 		vec->z = ft_atoi(vec_info[2]);
+		if (type == 4)
+			vecnorm(vec);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading object vector info\n", 2);
@@ -32,12 +34,10 @@ void	get_color(t_obj *obj, char *info)
 
 void	get_size(t_obj *obj, char *info)
 {
-	if (obj->type == 2 || obj->type == 3)
-	{
-		//plusieur int
-	}
-	if (obj->type == 1)
-		obj->size1 = ft_atoi(info);
+	if (info)
+		obj->size = ft_atoi(info);
+	else
+		ft_putstr_fd("RTv1: Error while loading an object size\n", 2);
 }
 
 void	get_name(t_env *e, char *info)

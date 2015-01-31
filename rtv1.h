@@ -42,8 +42,7 @@ typedef struct			s_obj
 	t_vec				pos;
 	t_vec				rot;
 	t_vec				color;
-	double				size1;
-	double				size2;
+	double				size;
 	struct s_obj		*next;
 }						t_obj;
 
@@ -65,8 +64,11 @@ typedef struct			s_env
 	t_img				screen;
 	t_vec				cam_pos;
 	t_vec				cam_dir;
+	t_vec				ro;
+	t_vec				rd;
 	t_obj				*obj;
 	char				*screen_name;
+	double				ln;
 }						t_env;
 
 int						expose_hook(t_env *e);
@@ -79,7 +81,7 @@ void					get_camera(t_env *e, char *info);
 void					get_render(t_env *e, char *info);
 void					get_color(t_obj *obj, char *info);
 void					get_size(t_obj *obj, char *info);
-void					get_objvec(t_vec *vec, char *info);
+void					get_objvec(t_vec *vec, char *info, int type);
 void					setvec(t_vec *vec, double x, double y, double z);
 void					objinit(t_obj *obj);
 t_obj					*objnew(t_obj *obj);
@@ -97,5 +99,11 @@ t_vec					vecadd(t_vec *a, t_vec *b);
 t_vec					vecdiv(t_vec *a, t_vec *b);
 t_vec					vecprod(t_vec *a, t_vec *b);
 t_vec					vecopx(t_vec *a, double x);
+t_vec					vecreflect(t_vec *i, t_vec *n);
+void					vecclamp(t_vec *vec, double a, double b);
+double					isphere(t_obj *obj, t_vec *ro, t_vec *rd);
+double					iplane(t_obj *obj, t_vec *ro, t_vec *rd);
+double					icylinder(t_obj *obj, t_vec *ro, t_vec *rd);
+double					icone(t_obj *obj, t_vec *ro, t_vec *rd);
 
 #endif

@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-int		typeconvert(char	*stype)
+int		typeconvert(t_env *e, char *stype)
 {
 	if (strstr(stype, "plane"))
 		return (0);
@@ -22,6 +22,12 @@ int		typeconvert(char	*stype)
 		return (2);
 	else if (strstr(stype, "cone"))
 		return (3);
+	else if (strstr(stype, "light"))
+	{
+		e->ln += 1.0;
+		return (4);
+	}
+	return (-1);
 }
 
 void	get_scene(t_env *e, t_list *list)
@@ -51,7 +57,7 @@ void	get_object(t_env *e, t_list *list)
 		if (strstr(list->content, "object"))
 		{
 			objinit(&obj);
-			obj.type = typeconvert(ft_strconc(list->content, '(', ')'));
+			obj.type = typeconvert(e, ft_strconc(list->content, '(', ')'));
 			while (list && !strstr(list->content, "{"))
 				list = list->next;
 			while (list && !strstr(list->content, "}"))
@@ -61,9 +67,9 @@ void	get_object(t_env *e, t_list *list)
 				if (strstr(list->content, "size"))
 					get_size(&obj, ft_strconc(list->content, '(', ')'));
 				if (strstr(list->content, "pos"))
-					get_objvec(&obj.pos, ft_strconc(list->content, '(', ')'));
+					get_objvec(&obj.pos, ft_strconc(list->content, '(', ')'), obj.type);
 				if (strstr(list->content, "rot"))
-					get_objvec(&obj.rot, ft_strconc(list->content, '(', ')'));
+					get_objvec(&obj.rot, ft_strconc(list->content, '(', ')'), obj.type);
 				list = list->next;
 			}
 			objpushback(e, &obj);

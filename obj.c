@@ -3,8 +3,7 @@
 void	objinit(t_obj *obj)
 {
 	obj->type = 0;
-	obj->size1 = 0.5;
-	obj->size2 = 0.5;
+	obj->size = 0.5;
 	setvec(&obj->pos, 0, 0, 0);
 	setvec(&obj->rot, 0, 0, 0);
 	obj->color.x = 1.0;
@@ -18,8 +17,7 @@ t_obj	*objnew(t_obj *obj)
 
 	ret = malloc(sizeof(t_obj));
 	ret->type = obj->type;
-	ret->size1 = obj->size1 / 100.0;
-	ret->size2 = obj->size2 / 100.0;
+	ret->size = obj->size / 100.0;
 	ret->pos = obj->pos;
 	ret->rot = obj->rot;
 	ret->color = obj->color;

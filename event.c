@@ -15,13 +15,13 @@
 int		key_press(int keycode, t_env *e)
 {
 	if (keycode == W)
-		e->obj->pos.y += 0.05;
+		e->cam_dir.y += 0.05;
 	if (keycode == S)
-		e->obj->pos.y -= 0.05;
+		e->cam_dir.y -= 0.05;
 	if (keycode == A)
-		e->obj->pos.x += 0.05;
+		e->cam_dir.x -= 0.25;
 	if (keycode == D)
-		e->obj->pos.x -= 0.05;
+		e->cam_dir.x += 0.25;
 	expose_hook(e);
 	return (1);
 }
