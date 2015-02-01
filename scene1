@@ -3,9 +3,9 @@
 scene
 {
 	name(DEMO)
-	cam_pos(0 0 0)
-	cam_rot(0 0 0)
-	render(320 200)
+	cam_pos(5 0 0)
+	cam_rot(2 1 0)
+	render(1280 720)
 }
 
 content
@@ -58,6 +58,6 @@ content
 	object(light)
 	{
 		color(220 150 120)
-		pos(12 3 3)
+		pos(11 3 23)
 	}
 }

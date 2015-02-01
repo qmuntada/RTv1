@@ -15,9 +15,9 @@
 int		key_press(int keycode, t_env *e)
 {
 	if (keycode == W)
-		e->cam_dir.y += 0.05;
+		e->cam_pos.x -= 1.0;
 	if (keycode == S)
-		e->cam_dir.y -= 0.05;
+		e->cam_pos.x += 1.0;
 	if (keycode == A)
 		e->cam_dir.x -= 0.25;
 	if (keycode == D)

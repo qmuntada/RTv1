@@ -1,15 +1,21 @@
 #include "rtv1.h"
 
-double	phong(t_vec *light, t_vec *nor, t_vec *rd)
+double lambert(t_vec *light, t_vec *nor)
+{
+	double	lambert;
+
+	lambert = ft_clamp(vecdot(nor, light), 0.0, 1.0);
+	return (lambert);
+}
+
+double	phong(t_vec *light, t_vec *nor, t_vec *rd, double lambert)
 {
 	double	phong;
 	t_vec	ref;
 
-	phong = ft_clamp(vecdot(nor, light), 0.0, 1.0);
 	ref = vecreflect(rd, nor);
 	vecnorm(&ref);
-	phong = ft_clamp(phong + phong *\
-		pow(ft_clamp(vecdot(&ref, light), 0.0, 1.0), 50.0), 0.0, 1.0);
+	phong = ft_clamp(pow(ft_clamp(vecdot(&ref, light), 0.0, 1.0), 50.0), 0.0, 1.0);
 	return (phong);
 }
 
@@ -17,111 +23,18 @@ t_vec	setnor(t_obj *obj, t_vec *pos)
 {
 	t_vec	nor;
 
-	setvec(&nor, 0.0, 1.0, 0.0);
+	nor = (t_vec){0.0, 1.0, 0.0};
 	if (obj->type == 0)
-		setvec(&nor, 0.0, 1.0, 0.0);
+		nor = (t_vec){obj->rot.x, obj->rot.y, obj->rot.z};
 	else if (obj->type == 1)
 		nor = vecsub(pos, &obj->pos);
 	else if (obj->type == 2)
-		setvec(&nor, pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z);
+		nor = (t_vec){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
 	else if (obj->type == 3)
-		setvec(&nor, pos->x - obj->pos.x, -(pos->y - obj->pos.y), pos->z - obj->pos.z);
+		nor = (t_vec){pos->x - obj->pos.x, -(pos->y - obj->pos.y), \
+			pos->z - obj->pos.z};
 	vecnorm(&nor);
 	return (nor);
-
-}
-
-t_vec	ray_tracing(t_env *e, double x, double y)
-{
-	t_vec col;
-
-	col = (t_vec){0.9, 0.9, 0.9};
-	double tmin = 100000.0;
-	double tmp = tmin;
-	t_vec	pos;
-	t_vec	nor;
-	t_obj	*obj;
-	t_obj	*objtmp;
-	t_vec	light;
-	setvec(&light, 10.0, 2.0, 2.0);
-	vecnorm(&light);
-
-	obj = e->obj;
-	objtmp = obj;
-	while (obj)
-	{
-		if (obj->type == 0)
-			tmp = iplane(obj, &e->ro, &e->rd);
-		else if (obj->type == 1)
-			tmp = isphere(obj, &e->ro, &e->rd);
-		else if (obj->type == 2)
-			tmp = icylinder(obj, &e->ro, &e->rd);
-		else if (obj->type == 3)
-			tmp = icone(obj, &e->ro, &e->rd);
-		if (tmp > 0.0001 && tmp < tmin)
-		{
-			objtmp  = obj;
-			tmin = tmp;
-		}
-		obj = obj->next;
-	}
-	if (tmin > 0.0001)
-	{
-		setvec(&pos, e->ro.x + tmin * e->rd.x, e->ro.y + tmin * e->rd.y, e->ro.z + tmin * e->rd.z);
-		obj = e->obj;
-		tmp = -1.0;
-		int shab = 0;
-		double sha = 1.0;
-		t_obj	*obj2;
-		while (obj)
-		{
-			if (obj->type == 4)
-			{
-				obj2 = e->obj;
-				shab = 0;
-				while (obj2)
-				{
-						if (obj2->type == 0)
-							tmp = iplane(obj2, &pos, &obj->pos);
-						else if (obj2->type == 1)
-							tmp = isphere(obj2, &pos, &obj->pos);
-						else if (obj2->type == 2)
-							tmp = icylinder(obj2, &pos, &obj->pos);
-						else if (obj2->type == 3)
-							tmp = icone(obj2, &pos, &obj->pos);
-						if (tmp > -0.0001)
-							shab = 1;
-					obj2 = obj2->next;
-				}
-				if (shab == 1)
-					sha -= e->ln; // car deux lumieres  1 / nl
-			}
-			obj = obj->next;
-		}
-		if (tmin < 1000.0)
-		{
-			setvec(&col, objtmp->color.x, objtmp->color.y, objtmp->color.z);
-			nor = setnor(objtmp, &pos);
-			obj = e->obj;
-			double lig = 0.0;
-			while (obj)
-			{
-				if (obj->type == 4)
-				{
-					lig += phong(&obj->pos, &nor, &e->rd) * e->ln;
-				}
-				obj = obj->next;
-			}
-			lig *= sha;
-			lig = ft_clamp(lig, 0.0, 1.0);
-			col = vecopx(&col, lig);
-			//FOG
-			col.x = ft_mix(col.x, 0.9, 1.0 - exp(-0.02 * tmin));
-			col.y = ft_mix(col.y, 0.9, 1.0 - exp(-0.02 * tmin));
-			col.z = ft_mix(col.z, 0.9, 1.0 - exp(-0.02 * tmin));
-		}
-	}
-	return (col);
 }
 
 void	set_cam(t_env *e, double x, double y)
@@ -134,24 +47,125 @@ void	set_cam(t_env *e, double x, double y)
 
 	u = (e->screen.width - x * 2.0) / e->screen.height;
 	v = (e->screen.height - y * 2.0) / e->screen.height;
-	setvec(&e->ro, 5.0 * cos(e->cam_dir.x), \
-		e->cam_dir.y, 5.0 * sin(e->cam_dir.x));
+	e->ro = (t_vec){e->cam_pos.x * cos(e->cam_dir.x), e->cam_dir.y, \
+		e->cam_pos.x * sin(e->cam_dir.x)};
 	ww = vecsub(&(t_vec){0.0, 1.0, 0.0}, &e->ro);
 	vecnorm(&ww);
 	uu = veccross(&ww, &(t_vec){0.0, 1.0, 0.0});
 	vecnorm(&uu);
 	vv = veccross(&uu, &ww);
-	setvec(&e->rd, u * uu.x + v * vv.x + 1.5 * ww.x, \
-		u * uu.y + v * vv.y + 1.5 * ww.y , u * uu.z + v * vv.z + 1.5 * ww.z);
+	e->rd = (t_vec){u * uu.x + v * vv.x + 1.5 * ww.x, u * uu.y + v * \
+		vv.y + 1.5 * ww.y , u * uu.z + v * vv.z + 1.5 * ww.z};
 	vecnorm(&e->rd);
+	e->objs = NULL;
+}
+
+t_obj	*inter_object(t_env *e, t_vec *ro, t_vec *rd, double *dmin)
+{
+	t_obj	*lobj;
+	t_obj	*obj;
+	double	tmp;
+
+	obj = NULL;
+	lobj = e->obj;
+	tmp = *dmin;
+	while (lobj)
+	{
+		if (lobj->type == 0)
+			tmp = iplane(lobj, ro, rd);
+		else if (lobj->type == 1)
+			tmp = isphere(lobj, ro, rd);
+		else if (lobj->type == 2)
+			tmp = icylinder(lobj, ro, rd);
+		else if (lobj->type == 3)
+			tmp = icone(lobj, ro, rd);
+		if (tmp > 0.0001 && tmp < *dmin)
+		{
+			obj = lobj;
+			*dmin = tmp;
+		}
+		lobj = lobj->next;
+	}
+	return (obj);
+}
+
+void	get_lighting(t_env *e, t_vec *col, t_vec *pos)
+{
+	double	sha;
+	double	spe;
+	double	lig;
+	t_obj	*obj;
+	double	tmp;
+	t_vec	nor;
+
+	nor = setnor(e->objs, pos);
+	sha = 1.0;
+	lig = 0.0;
+	spe = 0.0;
+	obj = e->obj;
+	while (obj)
+	{
+		if (obj->type == 4)
+		{
+			tmp = 10000.0;
+			inter_object(e, pos, &obj->pos, &tmp);
+			if (tmp < 10000.0) // porte des ombres
+				sha -= e->ln;
+			lig += lambert(&obj->pos, &nor) * e->ln;
+			spe += phong(&obj->pos, &nor, &e->rd, lig) * e->ln;
+		}
+		obj = obj->next;
+	}
+	lig *= sha;
+	*col = vecopplus(col, spe);
+	vecclamp(col, 0.0, 1.0);
+	*col = vecopx(col, lig);
+}
+
+t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
+{
+	t_vec	color;
+	t_vec	pos;
+
+	e->tmin = 10000.0;
+	e->objs = inter_object(e, &e->ro, &e->rd, &e->tmin);
+	color = (t_vec){0.9, 0.9, 0.9};
+	if (e->tmin > 0.0001 && e->objs)
+	{
+		color = (t_vec){e->objs->color.x, e->objs->color.y, e->objs->color.z};
+		// color *= e->objs->ref * e->objs->tra;
+		pos = (t_vec){e->ro.x + e->tmin * e->rd.x, e->ro.y + e->tmin * \
+			e->rd.y, e->ro.z + e->tmin * e->rd.z};
+		if (e->tmin < 10000.0)
+			get_lighting(e, &color, &pos);
+	}
+	//color.x = ft_mix(color.x, 0.9, 1.0 - exp(-0.02 * e->tmin));
+	//color.y = ft_mix(color.y, 0.9, 1.0 - exp(-0.02 * e->tmin));
+	//color.z = ft_mix(color.z, 0.9, 1.0 - exp(-0.02 * e->tmin));
+	return (color);
+}
+
+t_vec	ray_tracing(t_env *e, double x, double y)
+{
+	t_vec	col;
+
+	set_cam(e, x, y);
+	col = (t_vec){0.9, 0.9, 0.9};
+	col = object_color(e, &e->ro, &e->rd);
+	/*
+	while (e->objs && e->ref++ < 16 && e->objs->ref < 1.0)
+	col += vecadd(&col, object_color(e, &col, &e->objs->pos, refdir));
+	while (e->objs && e->objs->tra < 1.0)
+	col += vecadd(&col, object_color(e, &col, &e->objs->pos, &e->rd));
+	*/
+	return (col);
 }
 
 void	display(t_env *e)
 {
 	int		x;
 	int		y;
-	t_vec	col;
-	t_vec	col2;
+	t_vec	coltmp;
 
 	y = -1;
 	while (++y < e->screen.height)
@@ -159,37 +173,28 @@ void	display(t_env *e)
 		x = -1;
 		while (++x < e->screen.width)
 		{
-			set_cam(e, x, y);
-			col = ray_tracing(e, x, y);
+			e->col = ray_tracing(e, x, y);
 			// POST EFFECT
 			if (0)
 			{
-				// ANTI ALIASING
-				col2 = ray_tracing(e, x, y + 0.5);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x + 0.5, y);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x + 0.5, y + 0.5);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x, y - 0.5);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x - 0.5, y);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x - 0.5, y - 0.5);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x + 0.5, y - 0.5);
-				col = vecadd(&col, &col2);
-				col2 = ray_tracing(e, x - 0.5, y + 0.5);
-				col = vecadd(&col, &col2);
-				col = vecopx(&col, 0.112);
+				// ANTI ALIASING 4X
+				coltmp = ray_tracing(e, x, y + 0.5);
+				e->col = vecadd(&e->col, &coltmp);
+				coltmp = ray_tracing(e, x + 0.5, y);
+				e->col = vecadd(&e->col, &coltmp);
+				coltmp = ray_tracing(e, x, y - 0.5);
+				e->col = vecadd(&e->col, &coltmp);
+				coltmp = ray_tracing(e, x - 0.5, y);
+				e->col = vecadd(&e->col, &coltmp);
+				e->col = vecopx(&e->col, 0.2);
 				//VIGNETTE
-				col = vecopx(&col, 0.2 + 0.8 * pow(16.0 * (double)x / \
+				e->col = vecopx(&e->col, 0.2 + 0.8 * pow(16.0 * (double)x / \
 					e->screen.width * (double)y / e->screen.height * (1.0 - \
 					(double)x / e->screen.width ) * (1.0 - (double)y / \
 					e->screen.height ), 0.15));
 			}
-			vecclamp(&col, 0.0, 1.0);
-			pixel_put(e, x, y, &col);
+			vecclamp(&e->col, 0.0, 1.0);
+			pixel_put(e, x, y);
 		}
 	}
 }

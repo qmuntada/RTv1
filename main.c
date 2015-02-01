@@ -12,27 +12,10 @@
 
 #include "rtv1.h"
 
-void	init_image(t_env *e)
-{
-	int		x;
-	int		y;
-	t_vec	color;
-
-	y = -1;
-	setvec(&color, 0.0, 0.0, 0.0);
-	while (++y < e->screen.height)
-	{
-		x = -1;
-		while (++x < e->screen.width)
-			pixel_put(e, x, y, &color);
-	}
-}
-
 int		expose_hook(t_env *e)
 {
-	//init_image(e);
 	display(e);
-	mlx_put_image_to_window(e->mlx, e->win, e->screen.img_ptr, 0, 0);
+	//mlx_put_image_to_window(e->mlx, e->win, e->screen.img_ptr, 0, 0);
 	return (1);
 }
 

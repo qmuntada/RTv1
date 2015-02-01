@@ -39,7 +39,9 @@ void	get_scene(t_env *e, t_list *list)
 		if (strstr(list->content, "name"))
 			get_name(e, ft_strconc(list->content, '(', ')'));
 		else if (strstr(list->content, "cam_pos"))
-			get_camera(e, ft_strconc(list->content, '(', ')'));
+			get_camera(e, ft_strconc(list->content, '(', ')'), 0);
+		else if (strstr(list->content, "cam_rot"))
+			get_camera(e, ft_strconc(list->content, '(', ')'), 1);
 		else if (strstr(list->content, "render"))
 			get_render(e, ft_strconc(list->content, '(', ')'));
 		list = list->next;

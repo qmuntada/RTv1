@@ -4,8 +4,8 @@ void	objinit(t_obj *obj)
 {
 	obj->type = 0;
 	obj->size = 0.5;
-	setvec(&obj->pos, 0, 0, 0);
-	setvec(&obj->rot, 0, 0, 0);
+	obj->pos = (t_vec){0, 0, 0};
+	obj->rot = (t_vec){0, 0, 0};
 	obj->color.x = 1.0;
 	obj->color.y = 1.0;
 	obj->color.z = 1.0;

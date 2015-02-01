@@ -70,6 +70,16 @@ t_vec	vecopx(t_vec *a, double x)
 	return (v);
 }
 
+t_vec	vecopplus(t_vec *a, double x)
+{
+	t_vec v;
+
+	v.x = a->x + x;
+	v.y = a->y + x;
+	v.z = a->z + x;
+	return (v);
+}
+
 t_vec	vecdiv(t_vec *a, t_vec *b)
 {
 	t_vec	v;
@@ -88,13 +98,6 @@ t_vec	vecreflect(t_vec *i, t_vec *n)
 	v.y = i->y - 2.0 * vecdot(n, i) * n->y;
 	v.z = i->z - 2.0 * vecdot(n, i) * n->z;
 	return (v);
-}
-
-void	setvec(t_vec *vec, double x, double y, double z)
-{
-	vec->x = x;
-	vec->y = y;
-	vec->z = z;
 }
 
 void	vecclamp(t_vec *vec, double a, double b)

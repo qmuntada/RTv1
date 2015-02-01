@@ -12,9 +12,10 @@ void	init_env_postparsing(t_env *e)
 void	init_env_preparsing(t_env *e)
 {
 	e->mlx = mlx_init();
-	setvec(&e->cam_pos, 0, 0, 0);
-	setvec(&e->cam_dir, 0, 0, 0);
+	e->cam_pos = (t_vec){0, 0, 0};
+	e->cam_dir = (t_vec){0, 0, 0};
 	e->obj = NULL;
+	e->objs = NULL;
 	e->ln = 0;
 	e->screen_name = "RTv1@42";
 	e->screen.width = 1000;

@@ -24,9 +24,9 @@ void	get_color(t_obj *obj, char *info)
 	if (info)
 	{
 		color_info = ft_strsplit(info, ' ');
-		obj->color.x = ft_atoi(color_info[0]) / 256.0;
-		obj->color.y = ft_atoi(color_info[1]) / 256.0;
-		obj->color.z = ft_atoi(color_info[2]) / 256.0;
+		obj->color.x = ft_clamp(ft_atoi(color_info[0]) / 256.0, 0.0, 1.0);
+		obj->color.y = ft_clamp(ft_atoi(color_info[1]) / 256.0, 0.0, 1.0);
+		obj->color.z = ft_clamp(ft_atoi(color_info[2]) / 256.0, 0.0, 1.0);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading an object color\n", 2);
@@ -48,16 +48,25 @@ void	get_name(t_env *e, char *info)
 		ft_putstr_fd("RTv1: Error while loading scene name\n", 2);
 }
 
-void	get_camera(t_env *e, char *info)
+void	get_camera(t_env *e, char *info, int type)
 {
 	char	**cam_info;
 
 	if (info)
 	{
 		cam_info = ft_strsplit(info, ' ');
-		e->cam_pos.x = ft_atoi(cam_info[0]);
-		e->cam_pos.y = ft_atoi(cam_info[1]);
-		e->cam_pos.z = ft_atoi(cam_info[2]);
+		if (type == 0)
+		{
+			e->cam_pos.x = ft_atoi(cam_info[0]);
+			e->cam_pos.y = ft_atoi(cam_info[1]);
+			e->cam_pos.z = ft_atoi(cam_info[2]);
+		}
+		else if (type == 1)
+		{
+			e->cam_dir.x = ft_atoi(cam_info[0]);
+			e->cam_dir.y = ft_atoi(cam_info[1]);
+			e->cam_dir.z = ft_atoi(cam_info[2]);
+		}
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading camera info\n", 2);
@@ -70,8 +79,8 @@ void	get_render(t_env *e, char *info)
 	if (info)
 	{
 		render_info = ft_strsplit(info, ' ');
-		e->screen.width = ft_atoi(render_info[0]);
-		e->screen.height = ft_atoi(render_info[1]);
+		e->screen.width = ft_clamp(ft_atoi(render_info[0]), 50, 5000);
+		e->screen.height = ft_clamp(ft_atoi(render_info[1]), 50, 5000);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading rendering info\n", 2);
