@@ -113,5 +113,6 @@ t_list				*ft_lstnclear(t_list **list, int nb);
 int					get_next_line(int fd, char **line);
 double				ft_clamp(double x, double min, double max);
 double				ft_mix(double x, double y, double a);
+double				ft_smoothstep(double edge1, double edge2, double x);
 
 #endif

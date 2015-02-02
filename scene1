@@ -5,14 +5,14 @@ scene
 	name(DEMO)
 	cam_pos(5 0 0)
 	cam_rot(2 1 0)
-	render(1280 720)
+	render(640 480)
 }
 
 content
 {
 	object(cone)
 	{
-		color(50 60 70)
+		color(220 230 240)
 		pos(5 2 -3)
 	}
 	object(cylinder)
@@ -31,7 +31,7 @@ content
 	{
 		color(190 190 190)
 		rot(0 0 90)
-		pos(0 0 -20)
+		pos(0 0 -30)
 	}
 	object(sphere)
 	{
@@ -47,17 +47,17 @@ content
 	}
 	object(light)
 	{
-		color(230 220 220)
+		color(110 200 246)
 		pos(10 2 2)
 	}
 	object(light)
 	{
-		color(240 180 130)
+		color(120 140 250)
 		pos(8 1 1)
 	}
 	object(light)
 	{
-		color(220 150 120)
+		color(200 210 120)
 		pos(11 3 23)
 	}
 }

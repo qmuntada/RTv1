@@ -1,42 +1,5 @@
 #include "rtv1.h"
 
-double lambert(t_vec *light, t_vec *nor)
-{
-	double	lambert;
-
-	lambert = ft_clamp(vecdot(nor, light), 0.0, 1.0);
-	return (lambert);
-}
-
-double	phong(t_vec *light, t_vec *nor, t_vec *rd, double lambert)
-{
-	double	phong;
-	t_vec	ref;
-
-	ref = vecreflect(rd, nor);
-	vecnorm(&ref);
-	phong = ft_clamp(pow(ft_clamp(vecdot(&ref, light), 0.0, 1.0), 50.0), 0.0, 1.0);
-	return (phong);
-}
-
-t_vec	setnor(t_obj *obj, t_vec *pos)
-{
-	t_vec	nor;
-
-	nor = (t_vec){0.0, 1.0, 0.0};
-	if (obj->type == 0)
-		nor = (t_vec){obj->rot.x, obj->rot.y, obj->rot.z};
-	else if (obj->type == 1)
-		nor = vecsub(pos, &obj->pos);
-	else if (obj->type == 2)
-		nor = (t_vec){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
-	else if (obj->type == 3)
-		nor = (t_vec){pos->x - obj->pos.x, -(pos->y - obj->pos.y), \
-			pos->z - obj->pos.z};
-	vecnorm(&nor);
-	return (nor);
-}
-
 void	set_cam(t_env *e, double x, double y)
 {
 	double	u;
@@ -89,59 +52,91 @@ t_obj	*inter_object(t_env *e, t_vec *ro, t_vec *rd, double *dmin)
 	return (obj);
 }
 
-void	get_lighting(t_env *e, t_vec *col, t_vec *pos)
+double	get_shadows(t_env *e, t_vec *pos)
 {
-	double	sha;
-	double	spe;
-	double	lig;
 	t_obj	*obj;
+	double	sha;
 	double	tmp;
-	t_vec	nor;
 
-	nor = setnor(e->objs, pos);
-	sha = 1.0;
-	lig = 0.0;
-	spe = 0.0;
 	obj = e->obj;
+	sha = 1.0;
 	while (obj)
 	{
 		if (obj->type == 4)
 		{
 			tmp = 10000.0;
 			inter_object(e, pos, &obj->pos, &tmp);
-			if (tmp < 10000.0) // porte des ombres
+			if (tmp < 10000.0)
 				sha -= e->ln;
-			lig += lambert(&obj->pos, &nor) * e->ln;
-			spe += phong(&obj->pos, &nor, &e->rd, lig) * e->ln;
+			//tmp = soft_shadows(e, pos, &obj->pos);
+			//sha -= tmp * e->ln;
 		}
 		obj = obj->next;
 	}
-	lig *= sha;
+	return (sha);
+}
+
+void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
+{
+	double	sha;
+	double	spe;
+	t_vec	lig;
+	t_obj	*obj;
+	t_vec	lig_tmp;
+
+	lig = (t_vec){0.0, 0.0, 0.0};
+	spe = 0.0;
+	sha = get_shadows(e, pos);
+	obj = e->obj;
+	while (obj)
+	{
+		if (obj->type == 4)
+		{
+			lig_tmp = lambert(&obj->pos, nor, &obj->color);
+			lig_tmp = vecopx(&lig_tmp, e->ln);
+			lig = vecadd(&lig, &lig_tmp);
+			spe += phong(&obj->pos, nor, &e->rd) * e->ln;
+		}
+		obj = obj->next;
+	}
+	spe *= sha;
 	*col = vecopplus(col, spe);
 	vecclamp(col, 0.0, 1.0);
-	*col = vecopx(col, lig);
+	lig = vecopx(&lig, sha);
+	*col = vecprod(col, &lig);
+	vecclamp(col, 0.0, 1.0);
 }
 
 t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 {
 	t_vec	color;
 	t_vec	pos;
+	t_vec	nor;
 
 	e->tmin = 10000.0;
 	e->objs = inter_object(e, &e->ro, &e->rd, &e->tmin);
-	color = (t_vec){0.9, 0.9, 0.9};
+	color = (t_vec){0.0, 0.0, 0.0};
 	if (e->tmin > 0.0001 && e->objs)
 	{
 		color = (t_vec){e->objs->color.x, e->objs->color.y, e->objs->color.z};
 		// color *= e->objs->ref * e->objs->tra;
-		pos = (t_vec){e->ro.x + e->tmin * e->rd.x, e->ro.y + e->tmin * \
-			e->rd.y, e->ro.z + e->tmin * e->rd.z};
 		if (e->tmin < 10000.0)
-			get_lighting(e, &color, &pos);
+		{
+			pos = (t_vec){e->ro.x + e->tmin * e->rd.x, e->ro.y + e->tmin * \
+				e->rd.y, e->ro.z + e->tmin * e->rd.z};
+			nor = setnor(e->objs, &pos);
+			get_lighting(e, &color, &pos, &nor);
+		}
 	}
-	//color.x = ft_mix(color.x, 0.9, 1.0 - exp(-0.02 * e->tmin));
-	//color.y = ft_mix(color.y, 0.9, 1.0 - exp(-0.02 * e->tmin));
-	//color.z = ft_mix(color.z, 0.9, 1.0 - exp(-0.02 * e->tmin));
+	//color.x = ft_mix(color.x, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	//color.y = ft_mix(color.y, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	//color.z = ft_mix(color.z, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	/*
+	while (e->objs && e->ref++ < 16 && e->objs->ref < 1.0)
+		col += vecadd(&col, object_color(e, &e->objs->pos, refdir));
+	while (e->objs && e->objs->tra < 1.0)
+		col += vecadd(&col, object_color(e, &e->objs->pos, &e->rd));
+	*/
 	return (color);
 }
 
@@ -150,14 +145,7 @@ t_vec	ray_tracing(t_env *e, double x, double y)
 	t_vec	col;
 
 	set_cam(e, x, y);
-	col = (t_vec){0.9, 0.9, 0.9};
 	col = object_color(e, &e->ro, &e->rd);
-	/*
-	while (e->objs && e->ref++ < 16 && e->objs->ref < 1.0)
-	col += vecadd(&col, object_color(e, &col, &e->objs->pos, refdir));
-	while (e->objs && e->objs->tra < 1.0)
-	col += vecadd(&col, object_color(e, &col, &e->objs->pos, &e->rd));
-	*/
 	return (col);
 }
 

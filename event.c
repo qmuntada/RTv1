@@ -14,7 +14,7 @@
 
 int		key_press(int keycode, t_env *e)
 {
-	if (keycode == W)
+	if (keycode == W && e->cam_pos.x > 2.0)
 		e->cam_pos.x -= 1.0;
 	if (keycode == S)
 		e->cam_pos.x += 1.0;

@@ -3,12 +3,16 @@
 double	isphere(t_obj *obj, t_vec *ro, t_vec *rd)
 {
 	t_vec	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	h;
 
 	oc = vecsub(ro, &obj->pos);
-	double a = vecdot(rd, rd);
-	double b = vecdot(&oc, rd);
-	double c = vecdot(&oc, &oc) - obj->size * obj->size;
-	double h = b * b - a * c;
+	a = vecdot(rd, rd);
+	b = vecdot(&oc, rd);
+	c = vecdot(&oc, &oc) - obj->size * obj->size;
+	h = b * b - a * c;
 	if (h < 0.0001)
 		return (-1.0);
 	return ((-b - sqrt(h)) / a);
@@ -16,7 +20,9 @@ double	isphere(t_obj *obj, t_vec *ro, t_vec *rd)
 
 double	iplane(t_obj *obj, t_vec *ro, t_vec *rd)
 {
-	double t = -((vecdot(&obj->rot, ro) - vecdot(&obj->rot, &obj->pos))\
+	double	t;
+
+	t = -((vecdot(&obj->rot, ro) - vecdot(&obj->rot, &obj->pos))\
 		/ vecdot(&obj->rot, rd));
 	if (t < 0.0001)
 		return (-1.0);
@@ -26,12 +32,16 @@ double	iplane(t_obj *obj, t_vec *ro, t_vec *rd)
 double	icylinder(t_obj *obj, t_vec *ro, t_vec *rd)
 {
 	t_vec	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	h;
 
 	oc = vecsub(ro, &obj->pos);
-	double a = rd->x * rd->x + rd->z * rd->z;
-	double b = (rd->x * oc.x + rd->z * oc.z);
-	double c = oc.x * oc.x + oc.z * oc.z - obj->size * obj->size;
-	double h = b * b - a * c;
+	a = rd->x * rd->x + rd->z * rd->z;
+	b = (rd->x * oc.x + rd->z * oc.z);
+	c = oc.x * oc.x + oc.z * oc.z - obj->size * obj->size;
+	h = b * b - a * c;
 	if (h < 0.0001)
 		return (-1.0);
 	return ((-b - sqrt(h)) / a);
@@ -40,12 +50,16 @@ double	icylinder(t_obj *obj, t_vec *ro, t_vec *rd)
 double	icone(t_obj *obj, t_vec *ro, t_vec *rd)
 {
 	t_vec	oc;
+	double	a;
+	double	b;
+	double	c;
+	double	h;
 
 	oc = vecsub(ro, &obj->pos);
-	double a = rd->x * rd->x - rd->y * rd->y + rd->z * rd->z;
-	double b = rd->x * oc.x - rd->y * oc.y + rd->z * oc.z;
-	double c = oc.x * oc.x + oc.z * oc.z - oc.y * oc.y;
-	double h = b * b - a * c;
+	a = rd->x * rd->x - rd->y * rd->y + rd->z * rd->z;
+	b = rd->x * oc.x - rd->y * oc.y + rd->z * oc.z;
+	c = oc.x * oc.x + oc.z * oc.z - oc.y * oc.y;
+	h = b * b - a * c;
 	if (h < 0.0001)
 		return (-1.0);
 	return ((-b - sqrt(h)) / a);

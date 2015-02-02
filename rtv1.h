@@ -29,6 +29,8 @@
 # define A 97
 # define D 100
 
+# define SMOOTH_SHADOWS 16.0
+
 typedef struct			s_vec
 {
 	double				x;
@@ -108,5 +110,9 @@ double					isphere(t_obj *obj, t_vec *ro, t_vec *rd);
 double					iplane(t_obj *obj, t_vec *ro, t_vec *rd);
 double					icylinder(t_obj *obj, t_vec *ro, t_vec *rd);
 double					icone(t_obj *obj, t_vec *ro, t_vec *rd);
+t_vec					lambert(t_vec *light, t_vec *nor, t_vec *col);
+double					phong(t_vec *light, t_vec *nor, t_vec *rd);
+t_vec					setnor(t_obj *obj, t_vec *pos);
+double					soft_shadows(t_env *e, t_vec *ro, t_vec *rd);
 
 #endif
