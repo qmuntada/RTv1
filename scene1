@@ -47,17 +47,17 @@ content
 	}
 	object(light)
 	{
-		color(110 200 246)
-		pos(10 2 2)
+		color(128 128 256)
+		pos(15 7 0)
 	}
 	object(light)
 	{
-		color(120 140 250)
-		pos(8 1 1)
+		color(128 256 128)
+		pos(15 5 15)
 	}
 	object(light)
 	{
-		color(200 210 120)
-		pos(11 3 23)
+		color(256 128 128)
+		pos(0 3 15)
 	}
 }

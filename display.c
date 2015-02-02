@@ -93,7 +93,7 @@ void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 		if (obj->type == 4)
 		{
 			lig_tmp = lambert(&obj->pos, nor, &obj->color);
-			lig_tmp = vecopx(&lig_tmp, e->ln);
+			//lig_tmp = vecopx(&lig_tmp, e->ln);
 			lig = vecadd(&lig, &lig_tmp);
 			spe += phong(&obj->pos, nor, &e->rd) * e->ln;
 		}
@@ -101,7 +101,6 @@ void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 	}
 	spe *= sha;
 	*col = vecopplus(col, spe);
-	vecclamp(col, 0.0, 1.0);
 	lig = vecopx(&lig, sha);
 	*col = vecprod(col, &lig);
 	vecclamp(col, 0.0, 1.0);
@@ -128,9 +127,9 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 			get_lighting(e, &color, &pos, &nor);
 		}
 	}
-	//color.x = ft_mix(color.x, 0.0, 1.0 - exp(-0.02 * e->tmin));
-	//color.y = ft_mix(color.y, 0.0, 1.0 - exp(-0.02 * e->tmin));
-	//color.z = ft_mix(color.z, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	color.x = ft_mix(color.x, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	color.y = ft_mix(color.y, 0.0, 1.0 - exp(-0.02 * e->tmin));
+	color.z = ft_mix(color.z, 0.0, 1.0 - exp(-0.02 * e->tmin));
 	/*
 	while (e->objs && e->ref++ < 16 && e->objs->ref < 1.0)
 		col += vecadd(&col, object_color(e, &e->objs->pos, refdir));
