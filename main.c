@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 16:56:05 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 17:35:07 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/02 19:34:37 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int		expose_hook(t_env *e)
 {
 	display(e);
-	//mlx_put_image_to_window(e->mlx, e->win, e->screen.img_ptr, 0, 0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 16:51:43 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 18:12:27 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/02 19:35:32 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@
 # define A 97
 # define D 100
 
-# define SMOOTH_SHADOWS 16.0
-
 typedef struct			s_vec
 {
 	double				x;
@@ -40,7 +38,7 @@ typedef struct			s_vec
 
 typedef struct			s_obj
 {
-	int					type; // 1 Plan 2 Sphere 3 Cylindre 4 Cone
+	int					type;
 	t_vec				pos;
 	t_vec				rot;
 	t_vec				color;
@@ -48,22 +46,12 @@ typedef struct			s_obj
 	struct s_obj		*next;
 }						t_obj;
 
-typedef struct			s_img
-{
-	void				*img_ptr;
-	unsigned char		*img;
-	int					bpp;
-	int					sl;
-	int					endian;
-	int					width;
-	int					height;
-}						t_img;
-
 typedef struct			s_env
 {
 	void				*mlx;
 	void				*win;
-	t_img				screen;
+	int					screen_height;
+	int					screen_width;
 	t_vec				cam_pos;
 	t_vec				cam_dir;
 	t_vec				ro;
@@ -113,6 +101,5 @@ double					icone(t_obj *obj, t_vec *ro, t_vec *rd);
 t_vec					lambert(t_vec *light, t_vec *nor, t_vec *col);
 double					phong(t_vec *light, t_vec *nor, t_vec *rd);
 t_vec					setnor(t_obj *obj, t_vec *pos);
-double					soft_shadows(t_env *e, t_vec *ro, t_vec *rd);
 
 #endif

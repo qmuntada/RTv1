@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   light.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/02/02 19:31:20 by qmuntada          #+#    #+#             */
+/*   Updated: 2015/02/02 19:38:10 by qmuntada         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "rtv1.h"
 
@@ -35,6 +46,7 @@ double	phong(t_vec *light, t_vec *nor, t_vec *rd)
 
 	ref = vecreflect(rd, nor);
 	vecnorm(&ref);
-	phong = ft_clamp(pow(ft_clamp(vecdot(&ref, light), 0.0, 1.0), 200.0), 0.0, 1.0);
+	phong = ft_clamp(pow(ft_clamp(vecdot(&ref, light), \
+					0.0, 1.0), 200.0), 0.0, 1.0);
 	return (phong);
 }

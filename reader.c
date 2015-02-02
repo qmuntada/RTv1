@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 18:05:57 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/01/19 18:39:50 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/02 19:39:02 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,11 @@ void	get_object(t_env *e, t_list *list)
 				if (strstr(list->content, "size"))
 					get_size(&obj, ft_strconc(list->content, '(', ')'));
 				if (strstr(list->content, "pos"))
-					get_objvec(&obj.pos, ft_strconc(list->content, '(', ')'), obj.type);
+					get_objvec(&obj.pos, ft_strconc(list->content, \
+								'(', ')'), obj.type);
 				if (strstr(list->content, "rot"))
-					get_objvec(&obj.rot, ft_strconc(list->content, '(', ')'), obj.type);
+					get_objvec(&obj.rot, ft_strconc(list->content, \
+								'(', ')'), obj.type);
 				list = list->next;
 			}
 			objpushback(e, &obj);

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/02/02 19:31:11 by qmuntada          #+#    #+#             */
+/*   Updated: 2015/02/02 19:37:07 by qmuntada         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rtv1.h"
 
 void	get_objvec(t_vec *vec, char *info, int type)
@@ -79,8 +91,8 @@ void	get_render(t_env *e, char *info)
 	if (info)
 	{
 		render_info = ft_strsplit(info, ' ');
-		e->screen.width = ft_clamp(ft_atoi(render_info[0]), 50, 5000);
-		e->screen.height = ft_clamp(ft_atoi(render_info[1]), 50, 5000);
+		e->screen_width = ft_clamp(ft_atoi(render_info[0]), 50, 5000);
+		e->screen_height = ft_clamp(ft_atoi(render_info[1]), 50, 5000);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading rendering info\n", 2);

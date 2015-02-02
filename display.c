@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   display.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2015/02/02 19:30:55 by qmuntada          #+#    #+#             */
+/*   Updated: 2015/02/02 19:37:52 by qmuntada         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rtv1.h"
 
 void	set_cam(t_env *e, double x, double y)
@@ -8,8 +20,8 @@ void	set_cam(t_env *e, double x, double y)
 	t_vec	uu;
 	t_vec	vv;
 
-	u = (e->screen.width - x * 2.0) / e->screen.height;
-	v = (e->screen.height - y * 2.0) / e->screen.height;
+	u = (e->screen_width - x * 2.0) / e->screen_height;
+	v = (e->screen_height - y * 2.0) / e->screen_height;
 	e->ro = (t_vec){e->cam_pos.x * cos(e->cam_dir.x), e->cam_dir.y, \
 		e->cam_pos.x * sin(e->cam_dir.x)};
 	ww = vecsub(&(t_vec){0.0, 1.0, 0.0}, &e->ro);
@@ -18,7 +30,7 @@ void	set_cam(t_env *e, double x, double y)
 	vecnorm(&uu);
 	vv = veccross(&uu, &ww);
 	e->rd = (t_vec){u * uu.x + v * vv.x + 1.5 * ww.x, u * uu.y + v * \
-		vv.y + 1.5 * ww.y , u * uu.z + v * vv.z + 1.5 * ww.z};
+		vv.y + 1.5 * ww.y, u * uu.z + v * vv.z + 1.5 * ww.z};
 	vecnorm(&e->rd);
 	e->objs = NULL;
 }
@@ -68,8 +80,6 @@ double	get_shadows(t_env *e, t_vec *pos)
 			inter_object(e, pos, &obj->pos, &tmp);
 			if (tmp < 10000.0)
 				sha -= e->ln;
-			//tmp = soft_shadows(e, pos, &obj->pos);
-			//sha -= tmp * e->ln;
 		}
 		obj = obj->next;
 	}
@@ -93,7 +103,6 @@ void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 		if (obj->type == 4)
 		{
 			lig_tmp = lambert(&obj->pos, nor, &obj->color);
-			//lig_tmp = vecopx(&lig_tmp, e->ln);
 			lig = vecadd(&lig, &lig_tmp);
 			spe += phong(&obj->pos, nor, &e->rd) * e->ln;
 		}
@@ -118,7 +127,6 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 	if (e->tmin > 0.0001 && e->objs)
 	{
 		color = (t_vec){e->objs->color.x, e->objs->color.y, e->objs->color.z};
-		// color *= e->objs->ref * e->objs->tra;
 		if (e->tmin < 10000.0)
 		{
 			pos = (t_vec){e->ro.x + e->tmin * e->rd.x, e->ro.y + e->tmin * \
@@ -130,12 +138,6 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 	color.x = ft_mix(color.x, 0.0, 1.0 - exp(-0.02 * e->tmin));
 	color.y = ft_mix(color.y, 0.0, 1.0 - exp(-0.02 * e->tmin));
 	color.z = ft_mix(color.z, 0.0, 1.0 - exp(-0.02 * e->tmin));
-	/*
-	while (e->objs && e->ref++ < 16 && e->objs->ref < 1.0)
-		col += vecadd(&col, object_color(e, &e->objs->pos, refdir));
-	while (e->objs && e->objs->tra < 1.0)
-		col += vecadd(&col, object_color(e, &e->objs->pos, &e->rd));
-	*/
 	return (color);
 }
 
@@ -155,31 +157,12 @@ void	display(t_env *e)
 	t_vec	coltmp;
 
 	y = -1;
-	while (++y < e->screen.height)
+	while (++y < e->screen_height)
 	{
 		x = -1;
-		while (++x < e->screen.width)
+		while (++x < e->screen_width)
 		{
 			e->col = ray_tracing(e, x, y);
-			// POST EFFECT
-			if (0)
-			{
-				// ANTI ALIASING 4X
-				coltmp = ray_tracing(e, x, y + 0.5);
-				e->col = vecadd(&e->col, &coltmp);
-				coltmp = ray_tracing(e, x + 0.5, y);
-				e->col = vecadd(&e->col, &coltmp);
-				coltmp = ray_tracing(e, x, y - 0.5);
-				e->col = vecadd(&e->col, &coltmp);
-				coltmp = ray_tracing(e, x - 0.5, y);
-				e->col = vecadd(&e->col, &coltmp);
-				e->col = vecopx(&e->col, 0.2);
-				//VIGNETTE
-				e->col = vecopx(&e->col, 0.2 + 0.8 * pow(16.0 * (double)x / \
-					e->screen.width * (double)y / e->screen.height * (1.0 - \
-					(double)x / e->screen.width ) * (1.0 - (double)y / \
-					e->screen.height ), 0.15));
-			}
 			vecclamp(&e->col, 0.0, 1.0);
 			pixel_put(e, x, y);
 		}
