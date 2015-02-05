@@ -22,8 +22,8 @@ void	init_env_postparsing(t_env *e)
 void	init_env_preparsing(t_env *e)
 {
 	e->mlx = mlx_init();
-	e->cam_pos = (t_vec){0, 0, 0};
-	e->cam_dir = (t_vec){0, 0, 0};
+	e->cam_pos = (t_vec){0, 1, -5};
+	e->cam_dir = (t_vec){0, 1, 0};
 	e->obj = NULL;
 	e->objs = NULL;
 	e->ln = 0;

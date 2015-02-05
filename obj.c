@@ -15,12 +15,13 @@
 void	objinit(t_obj *obj)
 {
 	obj->type = 0;
-	obj->size = 0.5;
-	obj->pos = (t_vec){0, 0, 0};
-	obj->rot = (t_vec){0, 0, 0};
-	obj->color.x = 1.0;
-	obj->color.y = 1.0;
-	obj->color.z = 1.0;
+	obj->size = 100.0;
+	obj->power = 50.0;
+	obj->pos = (t_vec){0.0, 1.0, 0.0};
+	obj->rot = (t_vec){0.0, 1.0, 1.0};
+	obj->color.x = 0.9;
+	obj->color.y = 0.9;
+	obj->color.z = 0.9;
 }
 
 t_obj	*objnew(t_obj *obj)
@@ -30,6 +31,7 @@ t_obj	*objnew(t_obj *obj)
 	ret = malloc(sizeof(t_obj));
 	ret->type = obj->type;
 	ret->size = obj->size / 100.0;
+	ret->power = obj->power / 100.0;
 	ret->pos = obj->pos;
 	ret->rot = obj->rot;
 	ret->color = obj->color;

@@ -1,0 +1,34 @@
+scene
+{
+	name(SCENE2)
+	cam_pos(0 1 -5)
+	cam_dir(0 4 0)
+	render(1600 900)
+}
+
+content
+{
+	object(sphere)
+	{
+		size(500)
+		color(256 256 224)
+		pos(0 2 6)
+	}
+	object(sphere)
+	{
+		color(256 256 256)
+		pos(0 2 0)
+	}
+	object(sphere)
+	{
+		size(50)
+		color(256 128 128)
+		pos(0 2 -1)
+	}
+	object(light)
+	{
+		color(256 256 172)
+		pos(0 20 10)
+		power(100)
+	}
+}

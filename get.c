@@ -22,8 +22,6 @@ void	get_objvec(t_vec *vec, char *info, int type)
 		vec->x = ft_atoi(vec_info[0]);
 		vec->y = ft_atoi(vec_info[1]);
 		vec->z = ft_atoi(vec_info[2]);
-		if (type == 4)
-			vecnorm(vec);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading object vector info\n", 2);
@@ -44,10 +42,13 @@ void	get_color(t_obj *obj, char *info)
 		ft_putstr_fd("RTv1: Error while loading an object color\n", 2);
 }
 
-void	get_size(t_obj *obj, char *info)
+void	get_double(t_obj *obj, char *info, int type)
 {
 	if (info)
-		obj->size = ft_atoi(info);
+		if (type == 0)
+			obj->size = ft_clamp(ft_atoi(info), 1.0, 50000);
+		else if (type == 1)
+			obj->power = ft_clamp(ft_atoi(info), 0.0, 99.0);
 	else
 		ft_putstr_fd("RTv1: Error while loading an object size\n", 2);
 }
@@ -91,8 +92,8 @@ void	get_render(t_env *e, char *info)
 	if (info)
 	{
 		render_info = ft_strsplit(info, ' ');
-		e->screen_width = ft_clamp(ft_atoi(render_info[0]), 50, 5000);
-		e->screen_height = ft_clamp(ft_atoi(render_info[1]), 50, 5000);
+		e->screen_width = ft_clamp(ft_atoi(render_info[0]), 10, 5000);
+		e->screen_height = ft_clamp(ft_atoi(render_info[1]), 10, 5000);
 	}
 	else
 		ft_putstr_fd("RTv1: Error while loading rendering info\n", 2);

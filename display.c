@@ -22,16 +22,15 @@ void	set_cam(t_env *e, double x, double y)
 
 	u = (e->screen_width - x * 2.0) / e->screen_height;
 	v = (e->screen_height - y * 2.0) / e->screen_height;
-	e->ro = (t_vec){e->cam_pos.x * cos(e->cam_dir.x), e->cam_dir.y, \
-		e->cam_pos.x * sin(e->cam_dir.x)};
-	ww = vecsub(&(t_vec){0.0, 1.0, 0.0}, &e->ro);
+	ww = vecsub(&e->cam_dir, &e->cam_pos);
 	vecnorm(&ww);
 	uu = veccross(&ww, &(t_vec){0.0, 1.0, 0.0});
 	vecnorm(&uu);
 	vv = veccross(&uu, &ww);
-	e->rd = (t_vec){u * uu.x + v * vv.x + 1.5 * ww.x, u * uu.y + v * \
-		vv.y + 1.5 * ww.y, u * uu.z + v * vv.z + 1.5 * ww.z};
+	e->rd = (t_vec){u * uu.x + v * vv.x + FOV * ww.x, u * uu.y + v * \
+		vv.y + FOV * ww.y, u * uu.z + v * vv.z + FOV * ww.z};
 	vecnorm(&e->rd);
+	e->ro = e->cam_pos;
 	e->objs = NULL;
 }
 
@@ -89,30 +88,31 @@ double	get_shadows(t_env *e, t_vec *pos)
 void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 {
 	double	sha;
-	double	spe;
+	t_vec	spe;
 	t_vec	lig;
 	t_obj	*obj;
 	t_vec	lig_tmp;
 
 	lig = (t_vec){0.0, 0.0, 0.0};
-	spe = 0.0;
+	spe = (t_vec){0.0, 0.0, 0.0};
 	sha = get_shadows(e, pos);
 	obj = e->obj;
 	while (obj)
 	{
 		if (obj->type == 4)
 		{
-			lig_tmp = lambert(&obj->pos, nor, &obj->color);
+			lig_tmp = lambert(obj, nor, pos);
 			lig = vecadd(&lig, &lig_tmp);
-			spe += phong(&obj->pos, nor, &e->rd) * e->ln;
+			spe = vecopplus(&spe, phong(&obj->pos, nor, &e->rd));
 		}
 		obj = obj->next;
 	}
-	spe *= sha;
-	*col = vecopplus(col, spe);
+	vecclamp(&lig, 0.0, 1.0);
 	lig = vecopx(&lig, sha);
-	*col = vecprod(col, &lig);
+	spe = vecprod(&spe, &lig);
+	*col = vecadd(col, &spe);
 	vecclamp(col, 0.0, 1.0);
+	*col = vecprod(col, &lig);
 }
 
 t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
@@ -122,7 +122,7 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 	t_vec	nor;
 
 	e->tmin = 10000.0;
-	e->objs = inter_object(e, &e->ro, &e->rd, &e->tmin);
+	e->objs = inter_object(e, ro, rd, &e->tmin);
 	color = (t_vec){0.0, 0.0, 0.0};
 	if (e->tmin > 0.0001 && e->objs)
 	{
@@ -135,15 +135,14 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 			get_lighting(e, &color, &pos, &nor);
 		}
 	}
-	color.x = ft_mix(color.x, 0.0, 1.0 - exp(-0.02 * e->tmin));
-	color.y = ft_mix(color.y, 0.0, 1.0 - exp(-0.02 * e->tmin));
-	color.z = ft_mix(color.z, 0.0, 1.0 - exp(-0.02 * e->tmin));
 	return (color);
 }
 
 t_vec	ray_tracing(t_env *e, double x, double y)
 {
 	t_vec	col;
+	t_vec	ro;
+	t_vec	rd;
 
 	set_cam(e, x, y);
 	col = object_color(e, &e->ro, &e->rd);

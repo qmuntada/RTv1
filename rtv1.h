@@ -28,6 +28,7 @@
 # define W 119
 # define A 97
 # define D 100
+# define FOV 2.5
 
 typedef struct			s_vec
 {
@@ -43,6 +44,7 @@ typedef struct			s_obj
 	t_vec				rot;
 	t_vec				color;
 	double				size;
+	double				power;
 	struct s_obj		*next;
 }						t_obj;
 
@@ -73,7 +75,7 @@ void					get_name(t_env *e, char *info);
 void					get_camera(t_env *e, char *info, int type);
 void					get_render(t_env *e, char *info);
 void					get_color(t_obj *obj, char *info);
-void					get_size(t_obj *obj, char *info);
+void					get_double(t_obj *obj, char *info, int type);
 void					get_objvec(t_vec *vec, char *info, int type);
 void					objinit(t_obj *obj);
 t_obj					*objnew(t_obj *obj);
@@ -93,12 +95,13 @@ t_vec					vecprod(t_vec *a, t_vec *b);
 t_vec					vecopx(t_vec *a, double x);
 t_vec					vecreflect(t_vec *i, t_vec *n);
 t_vec					vecopplus(t_vec *a, double x);
+t_vec					vecopdiv(t_vec *a, double x);
 void					vecclamp(t_vec *vec, double a, double b);
 double					isphere(t_obj *obj, t_vec *ro, t_vec *rd);
 double					iplane(t_obj *obj, t_vec *ro, t_vec *rd);
 double					icylinder(t_obj *obj, t_vec *ro, t_vec *rd);
 double					icone(t_obj *obj, t_vec *ro, t_vec *rd);
-t_vec					lambert(t_vec *light, t_vec *nor, t_vec *col);
+t_vec					lambert(t_obj *obj, t_vec *nor, t_vec *pos);
 double					phong(t_vec *light, t_vec *nor, t_vec *rd);
 t_vec					setnor(t_obj *obj, t_vec *pos);
 

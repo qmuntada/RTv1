@@ -92,6 +92,16 @@ t_vec	vecopplus(t_vec *a, double x)
 	return (v);
 }
 
+t_vec	vecopdiv(t_vec *a, double x)
+{
+	t_vec v;
+
+	v.x = a->x / x;
+	v.y = a->y / x;
+	v.z = a->z / x;
+	return (v);
+}
+
 t_vec	vecdiv(t_vec *a, t_vec *b)
 {
 	t_vec	v;
