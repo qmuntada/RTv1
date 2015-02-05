@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 16:51:43 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/02/02 19:35:32 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/05 17:43:44 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void					get_camera(t_env *e, char *info, int type);
 void					get_render(t_env *e, char *info);
 void					get_color(t_obj *obj, char *info);
 void					get_double(t_obj *obj, char *info, int type);
-void					get_objvec(t_vec *vec, char *info, int type);
+void					get_objvec(t_vec *vec, char *info);
 void					objinit(t_obj *obj);
 t_obj					*objnew(t_obj *obj);
 void					objpushback(t_env *e, t_obj *obj);

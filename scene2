@@ -10,25 +10,26 @@ content
 {
 	object(sphere)
 	{
-		size(500)
-		color(256 256 224)
+		size(600)
+		color(256 256 128)
 		pos(0 2 6)
 	}
 	object(sphere)
 	{
-		color(256 256 256)
+		color(128 128 256)
+		size(100)
 		pos(0 2 0)
 	}
 	object(sphere)
 	{
-		size(50)
-		color(256 128 128)
+		size(25)
+		color(192 192 192)
 		pos(0 2 -1)
 	}
 	object(light)
 	{
-		color(256 256 172)
-		pos(0 20 10)
+		color(256 256 256)
+		pos(0 10 5)
 		power(100)
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 18:05:57 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/02/02 19:39:02 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/05 17:44:30 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	get_scene(t_env *e, t_list *list)
 	}
 }
 
-void	get_objectinfo(t_env *e, t_list *list, t_obj *obj)
+void	get_objectinfo(t_list *list, t_obj *obj)
 {
 	t_vec	vec;
 
@@ -58,12 +58,12 @@ void	get_objectinfo(t_env *e, t_list *list, t_obj *obj)
 		get_double(obj, ft_strconc(list->content, '(', ')'), 0);
 	else if (strstr(list->content, "pos"))
 	{
-		get_objvec(&vec, ft_strconc(list->content, '(', ')'), obj->type);
+		get_objvec(&vec, ft_strconc(list->content, '(', ')'));
 		obj->pos = vec;
 	}
 	else if (strstr(list->content, "rot"))
 	{
-		get_objvec(&vec, ft_strconc(list->content, '(', ')'), obj->type);
+		get_objvec(&vec, ft_strconc(list->content, '(', ')'));
 		obj->rot = vec;
 	}
 	else if (strstr(list->content, "power"))
@@ -86,7 +86,7 @@ void	get_object(t_env *e, t_list *list)
 				list = list->next;
 			while (list && !strstr(list->content, "}"))
 			{
-				get_objectinfo(e, list, &obj);
+				get_objectinfo(list, &obj);
 				list = list->next;
 			}
 			objpushback(e, &obj);

@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/02 19:30:55 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/02/02 19:37:52 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/05 17:42:39 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
 t_vec	ray_tracing(t_env *e, double x, double y)
 {
 	t_vec	col;
-	t_vec	ro;
-	t_vec	rd;
 
 	set_cam(e, x, y);
 	col = object_color(e, &e->ro, &e->rd);
@@ -72,7 +70,6 @@ void	display(t_env *e)
 {
 	int		x;
 	int		y;
-	t_vec	coltmp;
 
 	y = -1;
 	while (++y < e->screen_height)
