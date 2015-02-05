@@ -19,7 +19,6 @@ int		key_press(int keycode, t_env *e)
 		mlx_destroy_window(e->mlx, e->win);
 		exit(EXIT_SUCCESS);
 	}
-	expose_hook(e);
 	return (1);
 }
 

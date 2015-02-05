@@ -68,3 +68,54 @@ double	phong(t_vec *obj, t_vec *nor, t_vec *rd)
 					0.0, 1.0), 200.0), 0.0, 1.0);
 	return (phong);
 }
+
+double	get_shadows(t_env *e, t_vec *pos)
+{
+	t_obj	*obj;
+	double	sha;
+	double	tmp;
+
+	obj = e->obj;
+	sha = 1.0;
+	while (obj)
+	{
+		if (obj->type == 4)
+		{
+			tmp = 10000.0;
+			inter_object(e, pos, &obj->pos, &tmp);
+			if (tmp < 10000.0)
+				sha -= e->ln;
+		}
+		obj = obj->next;
+	}
+	return (sha);
+}
+
+void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
+{
+	double	sha;
+	t_vec	spe;
+	t_vec	lig;
+	t_obj	*obj;
+	t_vec	lig_tmp;
+
+	lig = (t_vec){0.0, 0.0, 0.0};
+	spe = (t_vec){0.0, 0.0, 0.0};
+	sha = get_shadows(e, pos);
+	obj = e->obj;
+	while (obj)
+	{
+		if (obj->type == 4)
+		{
+			lig_tmp = lambert(obj, nor, pos);
+			lig = vecadd(&lig, &lig_tmp);
+			spe = vecopplus(&spe, phong(&obj->pos, nor, &e->rd));
+		}
+		obj = obj->next;
+	}
+	lig = vecopx(&lig, sha);
+	spe = vecprod(&spe, &lig);
+	*col = vecadd(col, &spe);
+	vecclamp(col, 0.0, 1.0);
+	*col = vecprod(col, &lig);
+}

@@ -48,6 +48,28 @@ void	get_scene(t_env *e, t_list *list)
 	}
 }
 
+void	get_objectinfo(t_env *e, t_list *list, t_obj *obj)
+{
+	t_vec	vec;
+
+	if (strstr(list->content, "color"))
+		get_color(obj, ft_strconc(list->content, '(', ')'));
+	else if (strstr(list->content, "size"))
+		get_double(obj, ft_strconc(list->content, '(', ')'), 0);
+	else if (strstr(list->content, "pos"))
+	{
+		get_objvec(&vec, ft_strconc(list->content, '(', ')'), obj->type);
+		obj->pos = vec;
+	}
+	else if (strstr(list->content, "rot"))
+	{
+		get_objvec(&vec, ft_strconc(list->content, '(', ')'), obj->type);
+		obj->rot = vec;
+	}
+	else if (strstr(list->content, "power"))
+		get_double(obj, ft_strconc(list->content, '(', ')'), 1);
+}
+
 void	get_object(t_env *e, t_list *list)
 {
 	t_obj	obj;
@@ -64,18 +86,7 @@ void	get_object(t_env *e, t_list *list)
 				list = list->next;
 			while (list && !strstr(list->content, "}"))
 			{
-				if (strstr(list->content, "color"))
-					get_color(&obj, ft_strconc(list->content, '(', ')'));
-				if (strstr(list->content, "size"))
-					get_double(&obj, ft_strconc(list->content, '(', ')'), 0);
-				if (strstr(list->content, "pos"))
-					get_objvec(&obj.pos, ft_strconc(list->content, \
-								'(', ')'), obj.type);
-				if (strstr(list->content, "rot"))
-					get_objvec(&obj.rot, ft_strconc(list->content, \
-								'(', ')'), obj.type);
-				if (strstr(list->content, "power"))
-					get_double(&obj, ft_strconc(list->content, '(', ')'), 1);
+				get_objectinfo(e, list, &obj);
 				list = list->next;
 			}
 			objpushback(e, &obj);

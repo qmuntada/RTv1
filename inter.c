@@ -76,3 +76,32 @@ double	icone(t_obj *obj, t_vec *ro, t_vec *rd)
 		return (-1.0);
 	return ((-b - sqrt(h)) / a);
 }
+
+t_obj	*inter_object(t_env *e, t_vec *ro, t_vec *rd, double *dmin)
+{
+	t_obj	*lobj;
+	t_obj	*obj;
+	double	tmp;
+
+	obj = NULL;
+	lobj = e->obj;
+	tmp = *dmin;
+	while (lobj)
+	{
+		if (lobj->type == 0)
+			tmp = iplane(lobj, ro, rd);
+		else if (lobj->type == 1)
+			tmp = isphere(lobj, ro, rd);
+		else if (lobj->type == 2)
+			tmp = icylinder(lobj, ro, rd);
+		else if (lobj->type == 3)
+			tmp = icone(lobj, ro, rd);
+		if (tmp > 0.0001 && tmp < *dmin)
+		{
+			obj = lobj;
+			*dmin = tmp;
+		}
+		lobj = lobj->next;
+	}
+	return (obj);
+}

@@ -97,12 +97,12 @@ t_vec					vecreflect(t_vec *i, t_vec *n);
 t_vec					vecopplus(t_vec *a, double x);
 t_vec					vecopdiv(t_vec *a, double x);
 void					vecclamp(t_vec *vec, double a, double b);
-double					isphere(t_obj *obj, t_vec *ro, t_vec *rd);
-double					iplane(t_obj *obj, t_vec *ro, t_vec *rd);
-double					icylinder(t_obj *obj, t_vec *ro, t_vec *rd);
-double					icone(t_obj *obj, t_vec *ro, t_vec *rd);
 t_vec					lambert(t_obj *obj, t_vec *nor, t_vec *pos);
 double					phong(t_vec *light, t_vec *nor, t_vec *rd);
 t_vec					setnor(t_obj *obj, t_vec *pos);
+void					get_lighting(t_env *e, t_vec *col, t_vec *pos, \
+							t_vec *nor);
+t_obj					*inter_object(t_env *e, t_vec *ro, t_vec *rd, \
+							double *dmin);
 
 #endif

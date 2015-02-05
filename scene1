@@ -11,8 +11,8 @@ content
 	object(light)
 	{
 		color(256 256 204)
-		pos(1 3 5)
-		power(50);
+		pos(1 1 5)
+		power(25);
 	}
 	object(cone)
 	{
@@ -27,13 +27,13 @@ content
 	}
 	object(plane)
 	{
-		color(256 256 256)
+		color(204 204 204)
 		rot(0 1 0)
 		pos(0 -1 0)
 	}
 	object(plane)
 	{
-		color(256 204 256)
+		color(204 204 204)
 		rot(0 0 90)
 		pos(0 0 -30)
 	}
