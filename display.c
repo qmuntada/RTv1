@@ -63,6 +63,9 @@ t_vec	ray_tracing(t_env *e, double x, double y)
 
 	set_cam(e, x, y);
 	col = object_color(e, &e->ro, &e->rd);
+	col.x = pow(col.x, 0.85);
+	col.y = pow(col.y, 0.85);
+	col.z = pow(col.z, 0.85);
 	return (col);
 }
 
@@ -78,7 +81,6 @@ void	display(t_env *e)
 		while (++x < e->screen_width)
 		{
 			e->col = ray_tracing(e, x, y);
-			vecclamp(&e->col, 0.0, 1.0);
 			pixel_put(e, x, y);
 		}
 	}
