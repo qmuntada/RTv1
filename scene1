@@ -10,15 +10,9 @@ content
 {
 	object(light)
 	{
-		color(64 64 256)
-		pos(3 1  2)
-		power(20);
-	}
-	object(light)
-	{
-		color(256 256 128)
-		pos(10 5 0)
-		power(100)
+		color(128 128 256)
+		pos(-10 2 -6)
+		power(100);
 	}
 	object(cone)
 	{

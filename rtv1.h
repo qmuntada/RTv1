@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/01/19 16:51:43 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/02/05 17:43:44 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/06 18:20:16 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define A 97
 # define D 100
 # define FOV 2.5
+# define GAMMA 0.45
 
 typedef struct			s_vec
 {

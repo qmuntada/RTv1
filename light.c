@@ -6,7 +6,7 @@
 /*   By: qmuntada <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/02/05 17:16:15 by qmuntada          #+#    #+#             */
-/*   Updated: 2015/02/05 17:32:19 by qmuntada         ###   ########.fr       */
+/*   Updated: 2015/02/06 19:48:38 by qmuntada         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 	{
 		light = vecsub(&obj->pos, pos);
 		vecnorm(&light);
-		sha = vecdot(nor, &light);
+		sha = ft_clamp(vecdot(nor, &light), 0.0, 1.0);
 		lambert = vecopx(&obj->color, sha);
 		lambert = vecopx(&lambert, obj->power);
 	}
@@ -84,7 +84,7 @@ double	get_shadows(t_env *e, t_vec *pos)
 			tmp = 10000.0;
 			inter_object(e, pos, &obj->pos, &tmp);
 			if (tmp < 10000.0)
-				sha -= e->ln * obj->power;
+				sha -= (e->ln + obj->power) / 2.0;
 		}
 		obj = obj->next;
 	}
