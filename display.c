@@ -29,7 +29,6 @@ void	set_cam(t_env *e, double x, double y)
 	vv = veccross(&uu, &ww);
 	e->rd = (t_vec){u * uu.x + v * vv.x + FOV * ww.x, u * uu.y + v * \
 		vv.y + FOV * ww.y, u * uu.z + v * vv.z + FOV * ww.z};
-	vecnorm(&e->rd);
 	e->ro = e->cam_pos;
 	e->objs = NULL;
 }

@@ -1,8 +1,8 @@
 scene
 {
 	name(SCENE1)
-	cam_pos(0 1 -5)
-	cam_dir(0 1 10)
+	cam_pos(0 0 0)
+	cam_dir(5 0 10)
 	render(1600 900)
 }
 
@@ -17,12 +17,12 @@ content
 	{
 		color(64 128 256)
 		size(500)
-		pos(0 1 15)
+		pos(0 0 15)
 	}
 	object(sphere)
 	{
 		color(192 192 192)
 		size(50)
-		pos(9 1 12)
+		pos(5 0 10)
 	}
 }

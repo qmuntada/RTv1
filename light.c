@@ -54,13 +54,13 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 	return (lambert);
 }
 
-double	phong(t_vec *obj, t_vec *nor, t_vec *rd)
+double	phong(t_vec *obj, t_vec *nor, t_vec *rd, t_vec *pos)
 {
 	double	phong;
 	t_vec	ref;
 	t_vec	light;
 
-	light = *obj;
+	light = vecsub(obj, pos);
 	vecnorm(&light);
 	ref = vecreflect(rd, nor);
 	vecnorm(&ref);
@@ -81,14 +81,13 @@ double	get_shadows(t_env *e, t_vec *pos)
 	{
 		if (obj->type == 4)
 		{
-			tmp = 10000.0;
-			inter_object(e, pos, &obj->pos, &tmp);
-			if (tmp < 10000.0)
+			tmp = inter_shadows(e, pos, &obj->pos);
+			if (tmp == 1)
 				sha -= (e->ln + obj->power) / 2.0;
 		}
 		obj = obj->next;
 	}
-	return (sha);
+	return (ft_clamp(sha, 0.0, 1.0));
 }
 
 void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
@@ -109,7 +108,7 @@ void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 		{
 			lig_tmp = lambert(obj, nor, pos);
 			lig = vecadd(&lig, &lig_tmp);
-			spe = vecopplus(&spe, phong(&obj->pos, nor, &e->rd));
+			spe = vecopplus(&spe, phong(&obj->pos, nor, &e->rd, pos));
 		}
 		obj = obj->next;
 	}
@@ -119,5 +118,4 @@ void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
 	*col = vecadd(col, &spe);
 	vecclamp(col, 0.0, 1.0);
 	*col = vecprod(col, &lig);
-	vecclamp(col, 0.0, 1.0);
 }
