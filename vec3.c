@@ -34,10 +34,19 @@ t_vec	vecprod(t_vec *a, t_vec *b)
 
 t_vec	vecopx(t_vec *a, double x)
 {
-	t_vec v;
+	t_vec	v;
 
 	v.x = a->x * x;
 	v.y = a->y * x;
 	v.z = a->z * x;
 	return (v);
+}
+
+double	vecdistance(t_vec *a, t_vec *b)
+{
+	double	distance;
+
+	distance = sqrt((a->x - b->x) * (a->x - b->x) + \
+		(a->y - b->y) * (a->y - b->y) + (a->z - b->z) * (a->z - b->z));
+	return (distance);
 }

@@ -11,7 +11,8 @@ content
 	object(light)
 	{
 		pos(2 1 2)
-		power(50);
+		color(256 256 192)
+		power(25);
 	}
 	object(cone)
 	{
