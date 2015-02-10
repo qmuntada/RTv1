@@ -98,13 +98,10 @@ t_vec					vecreflect(t_vec *i, t_vec *n);
 t_vec					vecopplus(t_vec *a, double x);
 t_vec					vecopdiv(t_vec *a, double x);
 void					vecclamp(t_vec *vec, double a, double b);
-t_vec					setnor(t_obj *obj, t_vec *pos);
-void					get_lighting(t_env *e, t_vec *col, t_vec *pos, \
-							t_vec *nor);
+void					get_lighting(t_env *e, t_vec *col, t_vec *pos);
 t_obj					*inter_object(t_env *e, t_vec *ro, t_vec *rd, \
 							double *dmin);
 double					inter_shadows(t_env *e, t_vec *pos, t_vec *lpos);
 double					vecdistance(t_vec *a, t_vec *b);
-
 
 #endif

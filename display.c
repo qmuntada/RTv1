@@ -33,27 +33,23 @@ void	set_cam(t_env *e, double x, double y)
 	e->objs = NULL;
 }
 
-t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd)
+t_vec	object_color(t_env *e, t_vec *ro, t_vec *rd, t_vec *col)
 {
-	t_vec	color;
 	t_vec	pos;
-	t_vec	nor;
 
 	e->tmin = 10000.0;
 	e->objs = inter_object(e, ro, rd, &e->tmin);
-	color = (t_vec){0.0, 0.0, 0.0};
 	if (e->tmin > 0.0001 && e->objs)
 	{
-		color = (t_vec){e->objs->color.x, e->objs->color.y, e->objs->color.z};
+		*col = (t_vec){e->objs->color.x, e->objs->color.y, e->objs->color.z};
 		if (e->tmin < 10000.0)
 		{
 			pos = (t_vec){e->ro.x + e->tmin * e->rd.x, e->ro.y + e->tmin * \
 				e->rd.y, e->ro.z + e->tmin * e->rd.z};
-			nor = setnor(e->objs, &pos);
-			get_lighting(e, &color, &pos, &nor);
+			get_lighting(e, col, &pos);
 		}
 	}
-	return (color);
+	return (*col);
 }
 
 t_vec	ray_tracing(t_env *e, double x, double y)
@@ -61,7 +57,8 @@ t_vec	ray_tracing(t_env *e, double x, double y)
 	t_vec	col;
 
 	set_cam(e, x, y);
-	col = object_color(e, &e->ro, &e->rd);
+	col = (t_vec){0.0, 0.0, 0.0};
+	col = object_color(e, &e->ro, &e->rd, &col);
 	return (col);
 }
 

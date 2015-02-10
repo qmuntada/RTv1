@@ -31,11 +31,8 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 {
 	t_vec	lambert;
 	t_vec	light;
-	double	dist;
 	double	value;
-	double	sha;
 
-	sha = 1.0;
 	light = vecsub(&obj->pos, pos);
 	value = vecdistance(pos, &light);
 	value = ft_clamp(sqrt(1.0 / (value * (1.0 - obj->power))), 0.0, 0.9);
@@ -44,8 +41,8 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 	else
 	{
 		vecnorm(&light);
-		sha = ft_clamp(vecdot(nor, &light), 0.0, 1.0);
-		lambert = vecopx(&obj->color, sha);
+		value = ft_clamp(vecdot(nor, &light), 0.0, 1.0);
+		lambert = vecopx(&obj->color, value);
 		lambert = vecopx(&lambert, obj->power);
 	}
 	lambert = vecopx(&lambert, value);
@@ -81,7 +78,7 @@ double	get_shadows(t_env *e, t_vec *pos)
 		{
 			tmp = inter_shadows(e, pos, &obj->pos);
 			if (tmp == 1)
-				sha -= (e->ln + obj->power) / 2.0;
+				sha -= obj->power;
 		}
 		obj = obj->next;
 	}
@@ -127,15 +124,18 @@ t_vec	get_spe(t_env *e, t_vec *pos, t_vec *nor)
 	return (spe);
 }
 
-void	get_lighting(t_env *e, t_vec *col, t_vec *pos, t_vec *nor)
+
+void	get_lighting(t_env *e, t_vec *col, t_vec *pos)
 {
 	double	sha;
 	t_vec	spe;
 	t_vec	lig;
+	t_vec	nor;
 
+	nor = setnor(e->objs, pos);
 	sha = get_shadows(e, pos);
-	lig = get_diff(e, pos, nor);
-	spe = get_spe(e, pos, nor);
+	lig = get_diff(e, pos, &nor);
+	spe = get_spe(e, pos, &nor);
 	lig = vecopx(&lig, sha);
 	spe = vecprod(&spe, &lig);
 	*col = vecadd(col, &spe);
