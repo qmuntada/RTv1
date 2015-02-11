@@ -29,6 +29,7 @@
 # define A 97
 # define D 100
 # define FOV 2.0
+# define GAMMA 1.0
 
 typedef struct			s_vec
 {
@@ -102,5 +103,7 @@ t_obj					*inter_object(t_env *e, t_vec *ro, t_vec *rd, \
 							double *dmin);
 double					inter_shadows(t_env *e, t_vec *pos, t_vec *lpos);
 double					vecdistance(t_vec *a, t_vec *b);
+t_vec					lambert(t_obj *obj, t_vec *nor, t_vec *pos);
+double					phong(t_obj *obj, t_vec *nor, t_vec *rd, t_vec *pos);
 
 #endif

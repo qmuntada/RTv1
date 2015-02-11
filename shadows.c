@@ -13,23 +13,12 @@ int		ssphere(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	b = vecdot(&oc, rd);
 	c = vecdot(&oc, &oc) - obj->size * obj->size;
 	h = b * b - a * c;
-	if (h > 0.0001)
+	if (h > 0.001)
 	{
 		h = (-b - sqrt(h)) / a;
 		return ((h > 0.001) && (h < tmin));
 	}
 	return (0);
-}
-
-int		splane(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
-{
-	double	t;
-
-	t = -((vecdot(&obj->rot, ro) - vecdot(&obj->rot, &obj->pos))\
-		/ vecdot(&obj->rot, rd));
-	if (t < 0.0001)
-		return (-1.0);
-	return (t);
 }
 
 int		scylinder(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
@@ -45,7 +34,7 @@ int		scylinder(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	b = (rd->x * oc.x + rd->z * oc.z);
 	c = oc.x * oc.x + oc.z * oc.z - obj->size * obj->size;
 	h = b * b - a * c;
-	if (h > 0.0001)
+	if (h > 0.001)
 	{
 		h = (-b - sqrt(h)) / a;
 		return ((h > 0.001) && (h < tmin));
@@ -66,7 +55,7 @@ int		scone(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	b = rd->x * oc.x - rd->y * oc.y + rd->z * oc.z;
 	c = oc.x * oc.x + oc.z * oc.z - oc.y * oc.y;
 	h = b * b - a * c;
-	if (h > 0.0001)
+	if (h > 0.001)
 	{
 		h = (-b - sqrt(h)) / a;
 		return ((h > 0.001) && (h < tmin));
