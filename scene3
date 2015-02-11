@@ -1,8 +1,8 @@
 scene
 {
 	name(SCENE1)
-	cam_pos(5 2 10)
-	cam_dir(3 1 2)
+	cam_pos(0 1 10)
+	cam_dir(0 1 0)
 	render(1600 900)
 }
 
@@ -10,7 +10,7 @@ content
 {
 	object(light)
 	{
-		pos(2 1 0)
+		pos(2 2 0)
 		color(256 256 192)
 		power(90);
 	}

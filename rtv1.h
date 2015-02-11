@@ -29,7 +29,6 @@
 # define A 97
 # define D 100
 # define FOV 2.0
-# define GAMMA 0.45
 
 typedef struct			s_vec
 {

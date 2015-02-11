@@ -1,7 +1,7 @@
 scene
 {
 	name(SCENE1)
-	cam_pos(4 2 15)
+	cam_pos(4 5 15)
 	cam_dir(3 1 2)
 	render(1600 900)
 }

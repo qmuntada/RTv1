@@ -35,7 +35,7 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 	double	dist;
 
 	dist = vecdistance(pos, &obj->pos);
-	dist = ft_clamp(sqrt(0.001 / (dist * (1.0 - obj->power))), 0.0, 0.9);
+	dist = ft_clamp(sqrt(0.5 / (dist * (1.0 - obj->power))), 0.0, 1.0);
 	light = vecsub(&obj->pos, pos);
 	vecnorm(&light);
 	value = ft_clamp(vecdot(nor, &light), 0.0, 1.0);
@@ -77,7 +77,7 @@ double	get_shadows(t_env *e, t_vec *pos)
 		{
 			tmp = inter_shadows(e, pos, &obj->pos);
 			if (tmp == 1)
-				sha -= obj->power;
+				sha -= (obj->power + e->ln) / 2.0;
 		}
 		obj = obj->next;
 	}
