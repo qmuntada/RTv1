@@ -11,14 +11,14 @@ content
 	object(light)
 	{
 		color(256 0 256)
-		pos(20 10 20)
-		power(80);
+		pos(20 10 1)
+		power(60);
 	}
-	object(lidgdgdgght)
+	object(light)
 	{
 		color(0 256 0)
 		pos(2 1 -5)
-		power(60);
+		power(80);
 	}
 	object(cone)
 	{
