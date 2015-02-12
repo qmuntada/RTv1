@@ -12,7 +12,7 @@ content
 	{
 		color(256 0 256)
 		pos(20 10 1)
-		power(80);
+		power(50);
 	}
 	object(light)
 	{
