@@ -10,14 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-double	veclength(t_vec *vec)
+double	veclength(t_vec3 *vec)
 {
 	return (sqrt(vec->x * vec->x + vec->y * vec->y + vec->z * vec->z));
 }
 
-void	vecnorm(t_vec *vec)
+void	vecnorm(t_vec3 *vec)
 {
 	double	n;
 
@@ -27,14 +27,14 @@ void	vecnorm(t_vec *vec)
 	vec->z *= n;
 }
 
-double	vecdot(t_vec *a, t_vec *b)
+double	vecdot(t_vec3 *a, t_vec3 *b)
 {
 	return ((a->x * b->x) + (a->y * b->y) + (a->z * b->z));
 }
 
-t_vec	veccross(t_vec *a, t_vec *b)
+t_vec3	veccross(t_vec3 *a, t_vec3 *b)
 {
-	t_vec v;
+	t_vec3 v;
 
 	v.x = a->y * b->z - a->z * b->y;
 	v.y = a->z * b->x - a->x * b->z;
@@ -42,9 +42,9 @@ t_vec	veccross(t_vec *a, t_vec *b)
 	return (v);
 }
 
-t_vec	vecsub(t_vec *a, t_vec *b)
+t_vec3	vecsub(t_vec3 *a, t_vec3 *b)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = a->x - b->x;
 	v.y = a->y - b->y;

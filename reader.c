@@ -50,7 +50,7 @@ void	get_scene(t_env *e, t_list *list)
 
 void	get_objectinfo(t_list *list, t_obj *obj)
 {
-	t_vec	vec;
+	t_vec3	vec;
 
 	if (strstr(list->content, "color"))
 		get_color(obj, ft_strconc(list->content, '(', ')'));

@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-t_vec	vecopplus(t_vec *a, double x)
+t_vec3	vecopplus(t_vec3 *a, double x)
 {
-	t_vec v;
+	t_vec3 v;
 
 	v.x = a->x + x;
 	v.y = a->y + x;
@@ -22,9 +22,9 @@ t_vec	vecopplus(t_vec *a, double x)
 	return (v);
 }
 
-t_vec	vecopdiv(t_vec *a, double x)
+t_vec3	vecopdiv(t_vec3 *a, double x)
 {
-	t_vec v;
+	t_vec3 v;
 
 	v.x = a->x / x;
 	v.y = a->y / x;
@@ -32,9 +32,9 @@ t_vec	vecopdiv(t_vec *a, double x)
 	return (v);
 }
 
-t_vec	vecdiv(t_vec *a, t_vec *b)
+t_vec3	vecdiv(t_vec3 *a, t_vec3 *b)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = a->x / b->x;
 	v.y = a->y / b->y;
@@ -42,9 +42,9 @@ t_vec	vecdiv(t_vec *a, t_vec *b)
 	return (v);
 }
 
-t_vec	vecreflect(t_vec *i, t_vec *n)
+t_vec3	vecreflect(t_vec3 *i, t_vec3 *n)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = i->x - 2.0 * vecdot(n, i) * n->x;
 	v.y = i->y - 2.0 * vecdot(n, i) * n->y;
@@ -52,7 +52,7 @@ t_vec	vecreflect(t_vec *i, t_vec *n)
 	return (v);
 }
 
-void	vecclamp(t_vec *vec, double a, double b)
+void	vecclamp(t_vec3 *vec, double a, double b)
 {
 	vec->x = ft_clamp(vec->x, a, b);
 	vec->y = ft_clamp(vec->y, a, b);

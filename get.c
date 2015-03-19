@@ -12,7 +12,7 @@
 
 #include "rtv1.h"
 
-void	get_objvec(t_vec *vec, char *info)
+void	get_objvec(t_vec3 *vec, char *info)
 {
 	char	**vec_info;
 

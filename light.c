@@ -12,22 +12,22 @@
 
 #include "rtv1.h"
 
-t_vec	setnor(t_obj *obj, t_vec *pos)
+t_vec3	setnor(t_obj *obj, t_vec3 *pos)
 {
-	t_vec	nor;
+	t_vec3	nor;
 
-	nor = (t_vec){0.0, 1.0, 0.0};
+	nor = (t_vec3){0.0, 1.0, 0.0};
 	if (obj->type == 1)
 		nor = vecsub(pos, &obj->pos);
 	else if (obj->type == 2)
-		nor = (t_vec){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
+		nor = (t_vec3){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
 	else if (obj->type == 3)
-		nor = (t_vec){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
+		nor = (t_vec3){pos->x - obj->pos.x, 0.0, pos->z - obj->pos.z};
 	vecnorm(&nor);
 	return (nor);
 }
 
-double	get_shadows(t_env *e, t_vec *pos)
+double	get_shadows(t_env *e, t_vec3 *pos)
 {
 	t_obj	*obj;
 	double	sha;
@@ -48,14 +48,14 @@ double	get_shadows(t_env *e, t_vec *pos)
 	return (ft_clamp(sha, 0.0, 1.0));
 }
 
-t_vec	get_diff(t_env *e, t_vec *pos, t_vec *nor)
+t_vec3	get_diff(t_env *e, t_vec3 *pos, t_vec3 *nor)
 {
 	t_obj	*obj;
-	t_vec	lig;
-	t_vec	lig_tmp;
+	t_vec3	lig;
+	t_vec3	lig_tmp;
 
 	obj = e->obj;
-	lig = (t_vec){0.0, 0.0, 0.0};
+	lig = (t_vec3){0.0, 0.0, 0.0};
 	while (obj)
 	{
 		if (obj->type == 4)
@@ -70,13 +70,13 @@ t_vec	get_diff(t_env *e, t_vec *pos, t_vec *nor)
 	return (lig);
 }
 
-t_vec	get_spe(t_env *e, t_vec *pos, t_vec *nor)
+t_vec3	get_spe(t_env *e, t_vec3 *pos, t_vec3 *nor)
 {
 	t_obj	*obj;
-	t_vec	spe;
+	t_vec3	spe;
 
 	obj = e->obj;
-	spe = (t_vec){0.0, 0.0, 0.0};
+	spe = (t_vec3){0.0, 0.0, 0.0};
 	while (obj)
 	{
 		if (obj->type == 4)
@@ -88,12 +88,12 @@ t_vec	get_spe(t_env *e, t_vec *pos, t_vec *nor)
 }
 
 
-void	get_lighting(t_env *e, t_vec *col, t_vec *pos)
+void	get_lighting(t_env *e, t_vec3 *col, t_vec3 *pos)
 {
 	double	sha;
-	t_vec	spe;
-	t_vec	lig;
-	t_vec	nor;
+	t_vec3	spe;
+	t_vec3	lig;
+	t_vec3	nor;
 
 	nor = setnor(e->objs, pos);
 	sha = get_shadows(e, pos);

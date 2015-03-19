@@ -14,14 +14,14 @@
 
 void	objinit(t_obj *obj)
 {
-	t_vec	normedemerde;
+	t_vec3	normedemerde;
 
 	obj->type = 0;
 	obj->size = 100.0;
 	obj->power = 50.0;
-	normedemerde = (t_vec){0.0, 1.0, 0.0};
+	normedemerde = (t_vec3){0.0, 1.0, 0.0};
 	obj->pos = normedemerde;
-	normedemerde = (t_vec){0.0, 1.0, 1.0};
+	normedemerde = (t_vec3){0.0, 1.0, 1.0};
 	obj->rot = normedemerde;
 	obj->color.x = 0.9;
 	obj->color.y = 0.9;

@@ -1,9 +1,9 @@
 #include "rtv1.h"
 
-t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
+t_vec3	lambert(t_obj *obj, t_vec3 *nor, t_vec3 *pos)
 {
-	t_vec	lambert;
-	t_vec	light;
+	t_vec3	lambert;
+	t_vec3	light;
 	double	value;
 	double	dist;
 
@@ -20,11 +20,11 @@ t_vec	lambert(t_obj *obj, t_vec *nor, t_vec *pos)
 	return (lambert);
 }
 
-double	phong(t_obj *obj, t_vec *nor, t_vec *rd, t_vec *pos)
+double	phong(t_obj *obj, t_vec3 *nor, t_vec3 *rd, t_vec3 *pos)
 {
 	double	phong;
-	t_vec	ref;
-	t_vec	light;
+	t_vec3	ref;
+	t_vec3	light;
 
 	light = vecsub(&obj->pos, pos);
 	vecnorm(&light);

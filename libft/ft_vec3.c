@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rtv1.h"
+#include "libft.h"
 
-t_vec	vecadd(t_vec *a, t_vec *b)
+t_vec3	vecadd(t_vec3 *a, t_vec3 *b)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = a->x + b->x;
 	v.y = a->y + b->y;
@@ -22,9 +22,9 @@ t_vec	vecadd(t_vec *a, t_vec *b)
 	return (v);
 }
 
-t_vec	vecprod(t_vec *a, t_vec *b)
+t_vec3	vecprod(t_vec3 *a, t_vec3 *b)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = a->x * b->x;
 	v.y = a->y * b->y;
@@ -32,9 +32,9 @@ t_vec	vecprod(t_vec *a, t_vec *b)
 	return (v);
 }
 
-t_vec	vecopx(t_vec *a, double x)
+t_vec3	vecopx(t_vec3 *a, double x)
 {
-	t_vec	v;
+	t_vec3	v;
 
 	v.x = a->x * x;
 	v.y = a->y * x;
@@ -42,7 +42,7 @@ t_vec	vecopx(t_vec *a, double x)
 	return (v);
 }
 
-double	vecdistance(t_vec *a, t_vec *b)
+double	vecdistance(t_vec3 *a, t_vec3 *b)
 {
 	double	distance;
 

@@ -1,8 +1,8 @@
 #include "rtv1.h"
 
-int		ssphere(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
+int		ssphere(t_obj *obj, t_vec3 *ro, t_vec3 *rd, double tmin)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -21,9 +21,9 @@ int		ssphere(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	return (0);
 }
 
-int		scylinder(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
+int		scylinder(t_obj *obj, t_vec3 *ro, t_vec3 *rd, double tmin)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -42,9 +42,9 @@ int		scylinder(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	return (0);
 }
 
-int		scone(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
+int		scone(t_obj *obj, t_vec3 *ro, t_vec3 *rd, double tmin)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -63,12 +63,12 @@ int		scone(t_obj *obj, t_vec *ro, t_vec *rd, double tmin)
 	return (0);
 }
 
-double	inter_shadows(t_env *e, t_vec *pos, t_vec *lpos)
+double	inter_shadows(t_env *e, t_vec3 *pos, t_vec3 *lpos)
 {
 	t_obj	*lobj;
 	int		tmp;
 	int		sha;
-	t_vec	light;
+	t_vec3	light;
 	double	l;
 
 	lobj = e->obj;

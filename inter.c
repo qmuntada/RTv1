@@ -12,9 +12,9 @@
 
 #include "rtv1.h"
 
-double	isphere(t_obj *obj, t_vec *ro, t_vec *rd)
+double	isphere(t_obj *obj, t_vec3 *ro, t_vec3 *rd)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -30,7 +30,7 @@ double	isphere(t_obj *obj, t_vec *ro, t_vec *rd)
 	return ((-b - sqrt(h)) / a);
 }
 
-double	iplane(t_obj *obj, t_vec *ro, t_vec *rd)
+double	iplane(t_obj *obj, t_vec3 *ro, t_vec3 *rd)
 {
 	double	t;
 
@@ -41,9 +41,9 @@ double	iplane(t_obj *obj, t_vec *ro, t_vec *rd)
 	return (t);
 }
 
-double	icylinder(t_obj *obj, t_vec *ro, t_vec *rd)
+double	icylinder(t_obj *obj, t_vec3 *ro, t_vec3 *rd)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -59,9 +59,9 @@ double	icylinder(t_obj *obj, t_vec *ro, t_vec *rd)
 	return ((-b - sqrt(h)) / a);
 }
 
-double	icone(t_obj *obj, t_vec *ro, t_vec *rd)
+double	icone(t_obj *obj, t_vec3 *ro, t_vec3 *rd)
 {
-	t_vec	oc;
+	t_vec3	oc;
 	double	a;
 	double	b;
 	double	c;
@@ -77,7 +77,7 @@ double	icone(t_obj *obj, t_vec *ro, t_vec *rd)
 	return ((-b - sqrt(h)) / a);
 }
 
-t_obj	*inter_object(t_env *e, t_vec *ro, t_vec *rd, double *dmin)
+t_obj	*inter_object(t_env *e, t_vec3 *ro, t_vec3 *rd, double *dmin)
 {
 	t_obj	*lobj;
 	t_obj	*obj;

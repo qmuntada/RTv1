@@ -21,12 +21,12 @@ void	init_env_postparsing(t_env *e)
 
 void	init_env_preparsing(t_env *e)
 {
-	t_vec	normedemerde;
+	t_vec3	normedemerde;
 
 	e->mlx = mlx_init();
-	normedemerde = (t_vec){0, 1, -5};
+	normedemerde = (t_vec3){0, 1, -5};
 	e->cam_pos = normedemerde;
-	normedemerde = (t_vec){0, 1, 0};
+	normedemerde = (t_vec3){0, 1, 0};
 	e->cam_dir = normedemerde;
 	e->obj = NULL;
 	e->objs = NULL;
